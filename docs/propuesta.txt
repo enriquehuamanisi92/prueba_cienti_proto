@@ -1,0 +1,426 @@
+Chaski Salud: informe del proyecto para hackatón
+1. Nombre del proyecto y datos del equipo
+Chaski Salud es una plataforma de seguimiento y alerta con confirmación para familias con un adulto con hipertensión o diabetes. Es una herramienta de seguimiento y alertas: no diagnostica, no receta y no reemplaza la atención médica.
+Campo
+Información
+Nombre del proyecto
+Chaski Salud 
+Fecha
+
+Universidad 
+
+Integrante 1 
+
+Integrante 2
+
+Integrante 3
+
+Integrante 4
+
+
+Sobre el nombre. Chaski era el mensajero del Imperio inca, que llevaba noticias y encargos por los caminos andinos de relevo en relevo. La idea encaja con el proyecto: llevar un aviso de salud hasta la persona correcta y confirmar que llegó. 
+Resumen en una frase: Chaski Salud permite que una familia registre desde casa las mediciones de un adulto con hipertensión o diabetes, que reglas revisadas por profesionales las ordenen con un semáforo, y que cada aviso al familiar y al personal de salud quede confirmado y trazado con fecha, hora y responsable.
+2. Descripción del problema
+En el Perú, la hipertensión y la diabetes crecen y se concentran en la costa y en la población de más edad, pero entre una consulta y la siguiente nadie confirma que las mediciones del paciente fueron vistas por su familia o por el personal de salud.
+2.1 Qué muestran los datos
+Las cifras vienen de la ENDES (Encuesta Demográfica y de Salud Familiar) del INEI (Instituto Nacional de Estadística e Informática), elaboradas por el CEPLAN (Centro Nacional de Planeamiento Estratégico).  
+Hipertensión (personas de 15 años o más, 2025, Figura 9 de CEPLAN).
+Indicador
+Total
+Hombres
+Mujeres
+Con diagnóstico médico de hipertensión
+10,8%
+8,8%
+12,6%
+Con presión arterial alta en la medición de la encuesta
+14,6%
+18,6%
+10,9%
+La diferencia entre ambas filas es el punto clave: más personas tienen la presión alta en la medición que las que dicen tener un diagnóstico. Esto sugiere que una parte no sabe que tiene presión alta o no está en control. Entre los hombres la brecha es la mayor: 18,6% medido frente a 8,8% con diagnóstico. Desde 2014 el diagnóstico total pasó de 10,4% a 10,8% y la presión alta medida se mantuvo entre 12,3% y 17,2%.
+Diabetes (Figura 8 de CEPLAN, personas con diagnóstico).
+Grupo de edad
+2014
+2025
+40 a 49 años
+3,2%
+4,2%
+50 a 59 años
+6,8%
+8,9%
+60 años o más
+8,2%
+14,0%
+Total
+3,2%
+5,2%
+La diabetes diagnosticada en personas de 60 años o más casi se duplicó en once años y se estabiliza en 14,0% desde 2023. En el grupo de 50 a 59 años subió hasta 10,8% en 2023 y bajó a 8,9% en 2025; conviene leerlo con cautela hasta ver más años.
+Comorbilidad en la persona adulta mayor (2025, Gráfico 14). El 61,5% de las personas adultas mayores tiene al menos una de estas condiciones: obesidad, diabetes o hipertensión. En zonas urbanas es 65,8% y en zonas rurales 44,2%.
+Dónde se concentra (Tabla 3 de CEPLAN, 2014, 2019 y 2025).
+Departamento
+2014
+2019
+2025
+Cambio 2019–2025 (puntos)
+Callao
+24,1
+24,4
+24,9
++0,5
+Lima (departamento)
+22,3
+20,6
+24,7
++4,1
+Moquegua
+22,8
+17,5
+24,0
++6,5
+Tumbes
+22,1
+22,0
+23,5
++1,5
+Cajamarca
+16,6
+15,3
+21,3
++6,0
+Junín
+18,1
+13,7
+16,6
++2,9
+Pasco
+18,6
+14,1
+14,4
++0,3
+Ucayali
+14,4
+10,9
+13,5
++2,6
+Huánuco
+14,5
+16,6
+12,8
+−3,8
+La prevalencia es más alta en la costa y en Lima, y los mayores aumentos recientes están en Moquegua (+6,5 puntos), Cajamarca (+6,0) y Lima (+4,1). Los valores más bajos están en la selva y la sierra central, como Huánuco (12,8%) y Ucayali (13,5%). Agregar cita de figura  (luciana)
+2.2 Lectura de los datos para el proyecto
+Hay un grupo sin control ni diagnóstico, sobre todo hombres, que un seguimiento periódico puede ayudar a detectar.
+La población de 60 años o más concentra la diabetes, y es justo la que más necesita interfaces simples y un familiar cerca.
+La comorbilidad es menor en zonas rurales (44,2%) que en urbanas (65,8%). Esto no significa menos necesidad: puede reflejar menos diagnósticos por menor acceso a servicios. 
+El problema no es solo la costa rural. Lima, Callao y otras zonas urbanas tienen las cifras más altas, así que la población objetivo puede incluir también zonas periurbanas con colas largas.
+2.3 Problemas que encontramos y cómo los resuelve Chaski Salud
+Problema que encontramos
+Cómo lo resuelve Chaski Salud
+Mediciones aisladas. Una medición se anota o se envía, pero nadie confirma que la familia o el personal la vio.
+Cada aviso tiene identificador y cuatro estados con fecha, hora y responsable: generado, enviado, recibido y gestionado.
+Descontrol entre consultas. Entre una cita y la siguiente nadie observa la presión o la glucosa.
+El historial con tendencias explicables resalta valores fuera de rango, datos faltantes y cambios repetidos para revisión del personal.
+Colas y saturación de los consultorios. Todos esperan igual, sin importar la urgencia.
+El panel profesional ordena los casos por color y por estado de gestión.
+Barreras geográficas. Muchas familias viven a una hora o más del establecimiento.
+Seguimiento a distancia y sugerencia del establecimiento más cercano según RENIPRESS (Registro Nacional de Instituciones Prestadoras de Servicios de Salud).
+Barreras digitales y de conexión. Muchos adultos mayores no usan apps complejas y la señal es irregular.
+App web instalable (PWA) con tres botones, voz, modo sin conexión, y alternativas por SMS y WhatsApp.
+Registro manual y errores. Las anotaciones en papel se pierden o se copian mal.
+Registro digital con hora, lectura asistida por foto del medidor con confirmación del usuario y exportación del historial.
+Falta de aparatos de medición. No todas las familias tienen tensiómetro o glucómetro.
+Tres niveles de medición: Registro de síntomas, uso de puntos de medición compartidos (postas, farmacias o locales comunitarios) y monitoreo con equipos propios.
+Familias poco involucradas. El paciente muchas veces afronta solo su enfermedad.
+Cuidador vinculado por QR, enlace o número de contacto, con avisos y confirmación.
+2.4 A quién afecta
+A familias con un adulto con hipertensión o diabetes (o con valores sospechosos) que tienen acceso limitado a servicios de salud por distancia, tiempo, ingresos, conectividad o dificultad con la tecnología. La población específica de inicio aún se está definiendo; los datos de arriba apuntan a adultos de 50 años o más, con foco en el adulto mayor.
+2.5 Lo que el proyecto no pretende resolver
+Chaski Salud no diagnostica, no indica ni cambia tratamientos, no receta medicamentos, no sustituye la consulta médica ni la atención de emergencia, y no atiende urgencias por sí misma. Una notificación a un cuidador o a un panel no equivale a asistencia: por eso el sistema separa notificación, revisión y gestión clínica.
+3. Descripción de la solución propuesta
+Chaski Salud convierte cada medición en un caso con dueño: se registra, se evalúa con reglas revisadas, se avisa a la familia y al personal de salud, y cada paso queda confirmado con fecha, hora y responsable.
+3.1 Qué es Chaski Salud
+Es una plataforma con una app web instalable (PWA, Progressive Web App) para el paciente y su cuidador, canales por SMS y WhatsApp, un motor de reglas, una automatización que coordina los avisos y un panel web para el personal de salud. Su eje es el circuito de cuidado (CareLoop): registro, reglas y tendencias, aviso automatizado, confirmación del familiar o del personal y trazabilidad de la atención.
+
+circuito de cuidado · 5 etapas
+El flujo se lee de arriba abajo: el aviso llega a la familia y al personal por separado, y las respuestas de ambos terminan en el mismo caso.
+3.2 Principios de diseño
+Seguimiento, no diagnóstico. Los mensajes dicen "valor alto, consulta en tu posta", nunca "tienes hipertensión".
+Profesional en el circuito. La decisión de atención corresponde al personal de salud.
+Una familia, no un individuo. Todo paciente tiene al menos un cuidador de contacto.
+Primero sin conexión. Se puede registrar sin internet y se sincroniza después.
+Simple para el adulto mayor. Tres botones, voz, letra grande y alto contraste.
+Honesto con lo que hace. No se declara ninguna integración que no exista.
+3.3 Roles y accesos
+La información de salud es sensible, por lo que hay dos modos separados de uso, con permisos distintos.
+Modo
+Quién
+Qué puede hacer
+Qué no puede hacer
+Usuario
+Paciente
+Registrar mediciones, ver su color e historial, pedir ayuda
+Ver datos de otros pacientes
+Usuario
+Familiar o cuidador vinculado
+Ver el estado del paciente, recibir alertas, confirmar "He recibido el aviso", ayudar a registrar
+Aceptar o confirmar citas, ver otros pacientes
+Profesional (privilegiado)
+Médico, enfermera o técnico verificado
+Ver la lista de casos de su zona, revisar historial, marcar el estado de seguimiento, aceptar y confirmar citas, exportar
+Acceder a casos fuera de su zona o red
+Coordinador
+Responsable del cliente (clínica o red)
+Ver avisos sin confirmación y tiempos de respuesta, aprobar profesionales
+Modificar mediciones
+Cómo se asegura que solo entren profesionales.
+El profesional solicita acceso con su número de colegiatura o registro profesional y su establecimiento.
+El coordinador o administrador del cliente verifica los datos contra el registro del colegio profesional y el establecimiento en RENIPRESS, y aprueba el acceso. 
+Se asigna un alcance por zona o red: solo ve los pacientes de su zona.
+Ingreso con doble verificación (contraseña más un código al celular), sesión con vencimiento y registro de cada consulta (quién vio qué y cuándo).
+El acceso se retira cuando el profesional deja el establecimiento.
+3.4 Registro, consentimiento y modos de uso
+Consentimiento antes de cualquier dato. Pantalla clara que explica qué hace la herramienta y que no diagnostica, qué datos sensibles se guardan (DNI, celular, mediciones, síntomas, zona), para qué, quién los verá y cómo retirar el consentimiento. Se acepta de forma expresa. Sin consentimiento no hay registro.
+Datos básicos. DNI y celular, con código de verificación por SMS. Luego departamento, provincia y distrito, de donde sale la altitud.
+Cuestionario. Si tiene diagnóstico médico previo: "Tengo hipertensión (me lo dijo un médico)", "Tengo diabetes (me lo dijo un médico)", "Ambas" o "No sé, quiero controlarme". También edad, peso y síntomas frecuentes (sed excesiva, orina frecuente, dolor de cabeza fuerte, visión borrosa, mareos, dolor de pecho, falta de aire).
+Dos modos de seguimiento. Seguimiento para quien ya tiene diagnóstico, con umbrales por condición; Monitoreo para quien no sabe, con umbrales generales y solo la recomendación de consultar. Nunca se le dice que tiene una enfermedad.
+Cuidador de contacto. Obligatorio si el paciente vive solo; puede ser un familiar, un vecino o un agente comunitario.
+Sugerencia de establecimiento. El sistema sugiere, no asigna, el establecimiento más cercano según RENIPRESS.
+3.5 Cómo se vincula el familiar
+El paciente registra el nombre y celular del familiar. Hay tres formas de vincularlos, y en todas el familiar da su propio consentimiento:
+Forma
+Cómo funciona
+Para quién
+Código QR
+La pantalla del paciente muestra un QR de un solo uso, que vence en pocos minutos. El familiar lo escanea, crea su cuenta y queda vinculado.
+Familiar que vive con el paciente o está presente
+Enlace de invitación
+Se envía por SMS o WhatsApp al número registrado. El familiar lo abre, verifica su celular con un código y acepta.
+Familiar a distancia
+Coincidencia por número
+Si el familiar se registra con el mismo celular que el paciente dejó como contacto, el sistema le propone vincularse, y el paciente debe aprobarlo.
+Familiar que se registra por su cuenta
+
+El paciente puede ver y quitar a sus cuidadores en cualquier momento. Cada vínculo guarda fecha y hora, para evitar que alguien se haga pasar por un familiar.
+3.6 Medición y lectura asistida por foto
+Se consideran tres niveles de medición adaptados a los recursos de cada entorno:
+Sin aparato propio: Registro manual de síntomas, peso y pulso.
+Punto de medición compartido: Uso de tensiómetro y glucómetro disponibles en la posta de salud, farmacia, municipalidad o club del adulto mayor, operados por un agente comunitario, técnico o familiar.
+Aparato propio: Monitoreo con tensiómetro, glucómetro y/o pulsioxímetro familiar.
+
+Foto del medidor. El paciente o el cuidador puede fotografiar la pantalla del tensiómetro o del glucómetro. La app extrae los números con reconocimiento óptico de caracteres (OCR, que convierte una imagen de texto en texto) y los muestra para que el usuario los confirme o corrija antes de guardar. Nunca se guarda un valor leído por foto sin esa confirmación. También sirve para registrar valores normales y reducir errores de tipeo. La foto es una función de ayuda y es secundaria frente al circuito de cuidado.
+3.7 Reglas, semáforo y tendencias
+Los umbrales se basan en guías clínicas del MINSA (Ministerio de Salud) y en textos de fisiología.
+Color
+Presión (mmHg)
+Glucosa (mg/dL)
+Acción del personal
+Verde
+
+
+Seguimiento habitual: Continuar con registros periódicos
+Amarillo
+
+
+Atención preventiva: Se sugiere contacto de seguimiento para verificar estado.
+Naranja
+
+
+Prioridad alta: Se sugiere programar evaluación médica o teleorientación oportuna. 
+
+Rojo
+180/120 o más
+
+Alerta crítica / Emergencia: Indicación de acudir a la posta/centro más cercano o llamar al 106 (SAMU).
+Cualquier síntoma de alarma (dolor de pecho, falta de aire, confusión, debilidad de un lado del cuerpo) clasifica al paciente en rojo, aunque el valor numérico se vea normal. 
+Tendencias explicables. El sistema no usa una «inteligencia artificial caja negra». Señala hechos simples y verificables: valores faltantes, cambios repetidos o persistencia fuera del intervalo validado, con un texto como "se detectó una tendencia que requiere revisión". No predice enfermedades ni emite diagnósticos.
+Chaski Salud emite recomendaciones de prioridad y alertas para el entorno familiar y el personal de salud; el otorgamiento, tiempo y modalidad de las citas presenciales o virtuales dependen de la capacidad operativa de la IPRESS o centro de salud correspondiente. 
+3.8 Alertas, confirmación y trazabilidad
+Regla de seguridad. Si se detectan síntomas de alarma o un valor rojo, la propia pantalla da de inmediato las instrucciones de ayuda previamente validadas (por ejemplo, "Llama al 106 ahora"). No se espera a la automatización. El 106 es el SAMU (Sistema de Atención Móvil de Urgencia), el servicio para emergencias médicas que ponen en riesgo la vida; su cobertura varía por región y se verificará en la zona piloto. El 113 es Infosalud, usado para orientación en salud 24 horas, para dudas que no son emergencia. 
+Cuatro estados independientes por cada alerta, cada uno con fecha, hora y actor responsable:
+Estado
+Qué significa
+Quién lo registra
+Generada
+Una regla detectó un caso que requiere revisión
+Sistema
+Enviada
+El aviso salió por el canal elegido (con reintentos si falla)
+Sistema
+Recibida o confirmada
+El familiar o el personal tocó "He recibido el aviso"
+Familiar o personal
+Gestionada
+Un profesional revisó el caso y dejó constancia de la acción tomada
+Profesional
+
+Una confirmación de lectura no demuestra que la persona recibió atención médica. Por eso "recibida" y "gestionada" se muestran por separado.
+Reintentos y escalamiento. Si nadie confirma en un tiempo definido, el aviso se reenvía y pasa a un contacto alternativo autorizado, y luego al coordinador. Todos los intentos quedan en el registro. La automatización evita duplicados: un mismo evento no dispara dos avisos.
+Línea de tiempo del caso. El panel muestra medición, regla activada, avisos, respuestas y acciones en un solo caso, con el tiempo desde el registro hasta el envío y hasta la confirmación, medidos y no estimados.
+Qué hace hoy y qué haremos con convenios. Hoy el sistema no contacta directamente al SAMU ni a las postas: sugiere y facilita que la persona o su familia lo hagan, y avisa a su entorno. Con convenios, en una fase posterior, enviará el aviso directo al establecimiento con un responsable de turno que confirme haberlo recibido, e integrará citas virtuales con aliados que tengan agenda.
+3.9 Canales de comunicación
+Chaski Salud tiene un número de teléfono propio que atiende por SMS y WhatsApp: Los tres canales del paciente usan el mismo menú de tres opciones, para que quien aprende uno sepa usar los demás: 1 Medir, 2 Mi color, 3 Ayuda.
+Canal
+Cómo funciona
+App web instalable (PWA)
+Se instala desde el navegador, es obligatoria en el diseño. Guarda el registro sin internet, muestra "pendiente de sincronización", evita duplicados y envía al volver la señal. Tres botones: Medir, Mi color y Ayuda, con lectura en voz alta
+WhatsApp (chatbot)
+Asistente con respuestas escritas y validadas, no improvisadas, que guía el registro paso a paso, envía los avisos y recibe la confirmación. Se indicará siempre si la prueba usa WhatsApp real o un simulador
+SMS
+Mensaje corto para celulares básicos, por ejemplo presión o glucosa elevadas. Responde con el color y qué hacer. No requiere internet
+Panel web profesional
+Lista de casos ordenada por color y estado, filtros, historial con gráfico, línea de tiempo, registro de acciones y botón de exportar a PDF o Excel
+
+Sobre costos. Hoy el SMS y los datos de WhatsApp los paga el usuario o el cliente que contrate el servicio. Más adelante se buscarán alianzas con operadoras (código corto gratuito, USSD, datos sin costo).
+3.10 Arquitectura técnica
+Capa
+Tecnología
+Función
+Paciente y cuidador
+React con PWA
+Registro, historial, confirmación de avisos, modo sin conexión
+Backend
+Python con FastAPI
+API, validación de datos, permisos por rol y motor de reglas
+Base de datos
+PostgreSQL (SQL)
+Mediciones, usuarios, vínculos, estados de alertas y auditoría
+Automatización
+n8n con webhook
+Recibe el evento de la API, elige los contactos autorizados, dispara el canal, registra intentos, reintenta y escala
+Mensajería
+WhatsApp Business API y servicio de SMS
+Envío del aviso y acuse de recibo
+Panel profesional
+React con gráficos
+Lista priorizada, histórico y línea de tiempo
+Complemento opcional
+OCR en Python
+Lectura sugerida del medidor, con confirmación humana
+
+Para el prototipo se usan datos sintéticos, claramente identificados. Si el tiempo se agota, se mantiene lo esencial: registro, API, n8n, confirmación y panel; el reconocimiento por foto, la voz, los mapas y el aprendizaje automático quedan como extensiones.
+3.11 Establecimientos y datos de la zona
+Sugerencia de establecimiento: Cuando un caso presenta valores críticos o la alerta se confirma, tanto el paciente como su contacto reciben una indicación clara del establecimiento de salud más cercano (nombre, distancia, tiempo estimado, botón de llamada y enlace para abrir el mapa del dispositivo) junto a los números de emergencia. Los datos del establecimiento provienen de RENIPRESS, que sistematiza la infraestructura sanitaria pública y privada del país.
+Nota de focalización: Para la fase piloto, la intervención se acotará a la jurisdicción de una Red Integrada de Salud (RIS) o clínica aliada que cuente con establecimientos registrados en RENIPRESS y conectividad adecuada.
+
+3.12 Marco legal y salida al mercado
+Datos personales. Los datos de salud y el DNI son sensibles. Se aplica la Ley 29733, Ley de Protección de Datos Personales: consentimiento expreso, mínimo de datos, acceso por roles, cifrado y derecho a ver, exportar y borrar.
+Ley 30421, Ley Marco de Telesalud. Establece la telesalud como estrategia de prestación de servicios para mejorar la eficiencia y la calidad y ampliar la cobertura mediante tecnologías de la información y la comunicación. Su reglamento (Decreto Supremo 005-2021-SA, publicado el 23 de enero de 2021) reconoce la telemedicina, que incluye la teleorientación y el telemonitoreo, el seguimiento a distancia de un usuario por una institución prestadora (IPRESS). Chaski Salud encaja como herramienta de telemonitoreo y teleorientación: apoya a las IPRESS en tareas que la norma ya reconoce.
+Lo que dice la norma y es útil para la salida al mercado:
+Las IPRESS deben incorporar la telesalud de forma progresiva en su cartera de servicios.
+Deben estar registradas en RENIPRESS, dar la información y el consentimiento al paciente, y guardar el registro de la atención como parte de la historia clínica.
+Se aplica la Ley 29733; el consentimiento es obligatorio y los datos sensibles requieren consentimiento expreso.
+El personal debe actuar dentro de su competencia profesional; el personal técnico solo apoya bajo supervisión.
+Herramientas como los chatbots deben cumplir garantías de servicio que verifican las autoridades regionales de salud.
+Las IPRESS públicas usan el sistema "Tele atiendo"; las demás pueden usar plataformas propias o interoperables, y los sistemas deben seguir estándares abiertos.
+Ley 30885, Ley de las Redes Integradas de Salud (RIS). Publicada el 19 de diciembre de 2018, establece el marco para conformar y operar redes que brindan atención equitativa e integral a una población definida, de forma coordinada. Se aplica a los establecimientos del MINSA y de los gobiernos regionales; los demás pueden integrarse según el reglamento. Su valor para Chaski Salud es de organización: una RIS tiene un territorio y una población definidos, que es justo la unidad natural para un piloto (una red, sus establecimientos y sus familias).
+Cómo se combinan. La Ley 30421 da la base para ofrecer el servicio (telemonitoreo y teleorientación con consentimiento y registro) y la Ley 30885 da la unidad territorial y la puerta de entrada (una red con población definida). Una ruta realista: proponer un piloto a una RIS o a una clínica, que lo incorpore como parte de su telesalud.
+3.13 Cómo se logra que el personal de salud la use
+Clínicas y policlínicos: contrato, capacitación breve y uso exigido por su gerencia, porque ordena su cola.
+Postas públicas: convenio con la red de salud o la DIRESA; mientras no exista, el aviso llega por SMS o WhatsApp al celular de la posta.
+Incentivos: reportes automáticos y exportables, y menos llamadas de pacientes.
+3.14 Esquema de asignación de roles según la disponibilidad de personal local
+Escenario
+Quién mide
+Funcionamiento
+Posta con Agente Comunitario de Salud (ACS)
+Agente Comunitario
+Caso ideal: Cobertura directa y seguimiento continuo en la comunidad.
+Posta lejana solo con Serumista
+Serumista (en jornadas de salud) y/o un Cuidador
+Recepción de alertas y consulta a distancia. 
+
+Población aislada sin personal cercano (Posta a >1 hora)
+Cuidador voluntario capacitado
+Modo limitado: Registro de síntomas y reporte básico de control.
+
+3.16 Riesgos y mitigaciones
+Riesgo
+Mitigación
+Valores mal medidos o inventados
+Confirmación de lectura mediante foto de la pantalla del equipo, revisión de tendencias históricas por el personal de salud y validación de rangos fisiológicos por el sistema.
+Alertas que nadie atiende
+Cuatro estados, reintentos, escalamiento y responsable de turno
+Acceso indebido a datos
+Roles, verificación del profesional, zona asignada, doble verificación y auditoría
+Falta de señal
+PWA sin conexión y SMS
+Mala interpretación de mensajes
+Mensajes validados, nunca diagnósticos
+Afirmar integraciones que no existen
+Marcar lo real y lo simulado; sin convenio, solo se sugiere
+
+
+3.17 Hoja de ruta y escalamiento
+Fase 1: Prototipado y validación técnica (MVP): Construcción del circuito funcional del sistema (registro, arquitectura de integración, motor de alertas, panel de control y almacenamiento offline para contingencias de conectividad).
+Fase 2: Piloto de validación territorial: Despliegue en un entorno controlado (una Red Integrada de Salud o centro de atención prioritario, 30 a 50 usuarios, 1 mes de prueba) para evaluar la usabilidad, el flujo de alertas y el cumplimiento de protocolos de consentimiento informado y parámetros clínicos.
+Fase 3: Escalamiento progresivo: Expansión modular hacia otros establecimientos de la red mediante convenios institucionales y articulación con operadoras de telecomunicaciones.
+3.18 Mejoras futuras 
+Con la asignación de mayor presupuesto y madurez de la plataforma, se contemplan las siguientes integraciones tecnológicas:
+Accesibilidad por voz y lenguas nativas: Asistente interactivo por voz habilitado en idioma quechua y español adaptado.
+Integración con salud digital e IoT: Sincronización en tiempo real con plataformas de salud (como Apple Health) y vinculación directa vía Bluetooth con tensiómetros y glucómetros digitales.
+Estandarización e interoperabilidad clínica: Conexión directa con sistemas de historia clínica electrónica e integración de sensores portátiles (wearables) como accesorios de medición continua.
+4. Contribución al ODS 3 (Salud y Bienestar)
+Chaski Salud contribuye directamente a dos metas estratégicas del ODS 3 para garantizar una vida sana y promover el bienestar integral:
+Reducción de la mortalidad por enfermedades no transmisibles: La hipertensión y la diabetes representan amenazas críticas en la población adulta mayor. Frente al incremento de la diabetes en mayores de 60 años y la alta brecha de personas con presión alta no diagnosticada o sin control, Chaski Salud asegura el registro continuo de datos, la visibilidad oportuna de valores anómalos por la familia y el personal de salud, y el seguimiento constante del tratamiento.
+Cobertura sanitaria universal y acceso a servicios esenciales: La plataforma acerca los servicios de salud a poblaciones vulnerables, con conectividad limitada o barreras tecnológicas, mediante el soporte offline, mensajería SMS/WhatsApp, canales de voz y sugerencia del establecimiento de salud más cercano.
+Alineación con el marco normativo nacional: Esta propuesta se enmarca en las directrices de la Ley Nº 30421 (Ley Marco de Telesalud) y la Ley Nº 30885 (Ley de Redes Integradas de Salud - RIS), orientando el esfuerzo tecnológico hacia la ampliación de la cobertura y la atención integral en poblaciones delimitadas.
+5. Explicación de su carácter innovador
+Chaski Salud no inventa los dispositivos de medición, los chatbots ni los semáforos de alerta. Su innovación radica en cerrar el ciclo de notificación para familias en entornos de baja conectividad, garantizando la trazabilidad del proceso mediante datos auditables del propio sistema.
+Circuito de alertas en cuatro estados: A diferencia de un chatbot convencional que solo envía mensajes, el sistema rastrea cada aviso en cuatro fases clave (generada, enviada, recibida y gestionada), asignando fecha, hora y responsable, y diferenciando la notificación del acto clínico.
+Trazabilidad auditable en tiempo real: Registra la línea de tiempo completa por caso (medición, regla activada, avisos, respuestas y atención), basándose en tiempos reales de respuesta y no en estimaciones.
+Seguimiento centrado en la red familiar: Vincula al cuidador o familiar mediante código QR, enlace o número de contacto (previo consentimiento del paciente) para la recepción y confirmación del aviso.
+Seguridad y accesos segmentados por rol: Proporciona un entorno simplificado para el paciente/familiar y una interfaz verificada para el profesional de salud, limitada a su jurisdicción territorial y con registro de auditoría en cada consulta.
+Multicanalidad homogénea: Ofrece la misma interfaz funcional en aplicación web ejecutable offline (PWA), WhatsApp y SMS, evitando que las barreras tecnológicas o la falta de conectividad excluyan al usuario.
+Captura fotográfica de lectura con validación humana: Permite adjuntar una foto de la pantalla del medidor para reducir errores de digitación en adultos mayores, combinando la lectura visual con la confirmación del operador.
+Análisis de tendencias transparente (sin "caja negra"): Identifica valores faltantes, variaciones o desviaciones persistentes mediante reglas explícitas y comprensibles, evitando diagnósticos automatizados o modelos predictivos opacos.
+Diseño adaptado al ecosistema de salud peruano: Incorpora esquemas de medición flexibles (desde el registro de síntomas hasta aparatos propios), localización de establecimientos referenciados en RENIPRESS y una arquitectura operativa alineada con la Ley Marco de Telesalud (Ley Nº 30421) y la Ley de Redes Integradas de Salud (Ley Nº 30885).
+Propuesta de valor diferenciadora:
+Chaski Salud destaca por la integración de accesibilidad multicanal, participación familiar activa y un ciclo de alertas 100% auditable, validado operativamente dentro del marco regulatorio del primer nivel de atención.
+6. Evidencias del prototipo (acá van capturas de ejecución)
+7. Información disponible sobre usuarios, impacto, mercado, validación, tracción y modelo de negocio
+7.1 Usuarios
+El público objetivo prioritario se enfoca en personas adultas mayores y adultos con condiciones crónicas que requieren monitoreo continuo:
+Segmento candidato
+Sustento estadístico
+Adultos de 60 años o más con diabetes o hipertensión
+La diabetes diagnosticada en este grupo llegó a 14,0% en 2025 y la comorbilidad es de 61,5%
+Adultos de 50 a 59 años con presión alta no diagnosticada
+Hay más presión alta medida (14,6%) que diagnóstico (10,8%), sobre todo en hombres
+Familias periurbanas y rurales con acceso limitado
+El problema de distancia y conexión es mayor, aunque las cifras de comorbilidad son menores en lo rural (44,2%) por posible subdiagnóstico
+
+Usuarios directos: el adulto con la condición y su cuidador. 
+Profesionales: médicos, enfermeras, técnicos y agentes comunitarios. 
+Compradores: clínicas, aseguradoras, EPS (Entidades Prestadoras de Salud), farmacias, municipalidades, gobiernos regionales y redes integradas de salud. 
+7.2 Impacto esperado
+Tiempo desde el registro hasta el envío del aviso.
+Porcentaje de alertas confirmadas (confirmadas ÷ enviadas).
+Casos pendientes y casos gestionados, por separado.
+Tasa de registros correctos (errores detectados al capturar).
+Frecuencia semanal de mediciones por paciente.
+7.3 Mercado y sustento institucional
+El mercado potencial está conformado por la población con hipertensión o diabetes, sus familias y las entidades prestadoras encargadas de su seguimiento.
+Base poblacional: Según datos oficiales, el 10,8% de la población de 15 años a más cuenta con diagnóstico de hipertensión, el 14,6% presenta presión alta medida y el 5,2% tiene diagnóstico de diabetes. El mercado objetivo para el piloto se dimensionará multiplicando estas tasas por la población adscrita a la RIS o establecimiento seleccionado.
+Demanda institucional: La adopción del sistema por parte de IPRESS públicas y privadas responde a la obligación legal de incorporar progresivamente la telesalud en su cartera de servicios, en cumplimiento de la Ley Marco de Telesalud (Ley Nº 30421) y la Ley de Redes Integradas de Salud (Ley Nº 30885)
+
+7.4 Modelo de negocio
+El paciente vulnerable no paga. Pagan quienes ganan si el paciente se mantiene estable y si su telesalud cumple con la norma.
+Cliente
+Por qué le conviene
+Cómo se cobra
+Clínicas y policlínicos
+Colas más ordenadas, menos complicaciones y avances en telemonitoreo
+Suscripción mensual por paciente
+Redes integradas de salud y gobiernos regionales
+Seguimiento de una población definida y reportes por zona
+Contrato de implementación
+Aseguradoras y EPS
+Un crónico descompensado cuesta mucho
+Contrato por programa de crónicos
+Farmacias
+Pacientes que compran su tratamiento a tiempo
+Alianza y comisión
+Empresas
+Trabajadores más sanos
+Plan corporativo
+Fuentes (colocar referencias correctas en apa 7

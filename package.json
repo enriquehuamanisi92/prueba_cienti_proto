@@ -1,0 +1,8 @@
+{
+  "name": "chaski-salud-demo",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Demo estática para la exposición de Chaski Salud",
+  "scripts": {"build": "node build.mjs", "dev": "python3 -m http.server 3000", "preview": "python3 -m http.server 3000 --directory dist"},
+  "engines": {"node": ">=18"}
+}

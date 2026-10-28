@@ -1,0 +1,1011 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TeleVigía - Plataforma de Monitoreo Preventivo Comunitario</title>
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              50: '#ecfdf5',
+              100: '#d1fae5',
+              500: '#10b981',
+              600: '#059669',
+              700: '#047857',
+              800: '#065f46'
+            },
+            trust: {
+              500: '#0284c7',
+              600: '#0369a1'
+            }
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+    body {
+      font-family: 'Inter', sans-serif;
+    }
+    .badge-pulse {
+      animation: pulse-badge 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+    }
+    @keyframes pulse-badge {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: .75; transform: scale(1.05); }
+    }
+    /* Estilo barra de desplazamiento */
+    ::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #f1f5f9;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #cbd5e1;
+      border-radius: 4px;
+    }
+  </style>
+</head>
+<body class="bg-slate-50 text-slate-800 antialiased min-h-screen flex flex-col">
+
+  <!-- ================= TOP NAV BAR ================= -->
+  <header class="bg-white border-b border-slate-200 sticky top-0 z-50 shadow-sm">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex items-center justify-between h-16">
+        
+        <!-- Logo y Badge -->
+        <div class="flex items-center space-x-3">
+          <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-brand-600 to-trust-500 flex items-center justify-center text-white shadow-md">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path>
+            </svg>
+          </div>
+          <div>
+            <div class="flex items-center gap-2">
+              <span class="font-extrabold text-xl tracking-tight bg-gradient-to-r from-brand-700 to-trust-600 bg-clip-text text-transparent">TeleVigía</span>
+              <span class="text-[10px] font-bold px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-800 border border-emerald-200">UCSUR Hack 2026</span>
+            </div>
+            <p class="text-xs text-slate-500 hidden sm:block">Plataforma Comunitaria de Salud Preventiva</p>
+          </div>
+        </div>
+
+        <!-- Selector de Vistas Principal -->
+        <nav class="flex items-center bg-slate-100 p-1 rounded-xl text-xs sm:text-sm font-medium text-slate-600 border border-slate-200">
+          <button id="tabBtn-patient" onclick="switchView('patient')" class="px-3 sm:px-4 py-1.5 rounded-lg transition-all duration-200 bg-white text-brand-700 font-semibold shadow-sm flex items-center gap-1.5">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z"/></svg>
+            <span>Modo Promotor</span>
+          </button>
+          <button id="tabBtn-doctor" onclick="switchView('doctor')" class="px-3 sm:px-4 py-1.5 rounded-lg transition-all duration-200 hover:text-slate-900 flex items-center gap-1.5">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg>
+            <span>Panel Posta / Médico</span>
+          </button>
+          <button id="tabBtn-pitch" onclick="switchView('pitch')" class="px-3 sm:px-4 py-1.5 rounded-lg transition-all duration-200 hover:text-slate-900 flex items-center gap-1.5">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+            <span class="hidden md:inline">Ficha Concurso</span>
+            <span class="md:hidden">Ficha</span>
+          </button>
+        </nav>
+
+        <!-- Switch Simulación Offline / Online -->
+        <div class="flex items-center space-x-2">
+          <button id="networkToggleBtn" onclick="toggleNetworkMode()" class="flex items-center gap-2 px-3 py-1.5 rounded-full text-xs font-semibold border transition-all duration-200 bg-emerald-50 text-emerald-700 border-emerald-300 hover:bg-emerald-100">
+            <span class="w-2.5 h-2.5 rounded-full bg-emerald-500 inline-block animate-pulse"></span>
+            <span id="networkStatusLabel" class="hidden sm:inline">Online (Sincronizado)</span>
+            <span class="sm:hidden">Online</span>
+          </button>
+        </div>
+
+      </div>
+    </div>
+  </header>
+
+  <!-- ================= NOTIFICACIÓN TOAST GLOBAL ================= -->
+  <div id="toastNotification" class="fixed bottom-5 right-5 z-50 transform translate-y-24 opacity-0 transition-all duration-300 pointer-events-none">
+    <div id="toastBox" class="bg-slate-900 text-white px-5 py-3.5 rounded-xl shadow-2xl flex items-center space-x-3 max-w-md border border-slate-700">
+      <div id="toastIcon" class="text-emerald-400">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
+      </div>
+      <div>
+        <p id="toastTitle" class="text-sm font-semibold">Operación exitosa</p>
+        <p id="toastBody" class="text-xs text-slate-300">Detalle de la acción realizada.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================= MAIN CONTAINER ================= -->
+  <main class="flex-1 max-w-7xl w-full mx-auto p-4 sm:p-6 lg:p-8">
+
+    <!-- ======================================================== -->
+    <!-- VISTA A: PROMOTOR COMUNITARIO / PACIENTE (MOBILE FIRST)   -->
+    <!-- ======================================================== -->
+    <section id="view-patient" class="block">
+      <div class="max-w-xl mx-auto">
+
+        <!-- Banner de Contexto -->
+        <div class="bg-gradient-to-r from-brand-700 to-emerald-600 rounded-2xl p-5 text-white mb-6 shadow-md">
+          <div class="flex items-start justify-between">
+            <div>
+              <span class="inline-block text-[11px] font-bold tracking-wider uppercase bg-white/20 px-2.5 py-0.5 rounded-full mb-2">Visita de Campo</span>
+              <h2 class="text-xl font-extrabold">Control Preventivo en Comunidad</h2>
+              <p class="text-xs text-emerald-100 mt-1">Registra signos vitales de adultos mayores y pacientes en zonas de baja cobertura.</p>
+            </div>
+            <div class="bg-white/10 p-2.5 rounded-xl backdrop-blur-sm">
+              <svg class="w-7 h-7 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"/>
+              </svg>
+            </div>
+          </div>
+          
+          <div class="mt-4 pt-3 border-t border-white/20 flex items-center justify-between text-xs text-emerald-50">
+            <span>Promotor Activo: <strong>Lic. Carmen Vera (Zona Sur)</strong></span>
+            <span class="flex items-center gap-1">
+              <span class="w-2 h-2 rounded-full bg-emerald-300"></span> 
+              Sincronización lista
+            </span>
+          </div>
+        </div>
+
+        <!-- Formulario Accesible de Triaje -->
+        <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-6 sm:p-7">
+          <div class="flex items-center justify-between pb-4 border-b border-slate-100 mb-6">
+            <h3 class="text-base font-bold text-slate-800 flex items-center gap-2">
+              <svg class="w-5 h-5 text-brand-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"/></svg>
+              Nueva Ficha de Control
+            </h3>
+            <span class="text-xs text-slate-400 font-medium">Todos los campos calculan riesgo</span>
+          </div>
+
+          <form id="vitalsForm" onsubmit="handleVitalsSubmit(event)" class="space-y-5">
+
+            <!-- Datos Paciente -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div>
+                <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">Nombre del Paciente *</label>
+                <input type="text" id="patientName" required placeholder="Ej. Rosa Gómez Paredes" 
+                  class="w-full px-3.5 py-2.5 text-sm bg-slate-50 border border-slate-300 rounded-xl focus:bg-white focus:ring-2 focus:ring-brand-500 focus:border-brand-500 outline-none transition">
+              </div>
+              <div>
+                <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">DNI / Documento</label>
+                <input type="text" id="patientDni" placeholder="Ej. 09482155" 
+                  class="w-full px-3.5 py-2.5 text-sm bg-slate-50 border border-slate-300 rounded-xl focus:bg-white focus:ring-2 focus:ring-brand-500 focus:border-brand-500 outline-none transition">
+              </div>
+            </div>
+
+            <div class="grid grid-cols-2 gap-4">
+              <div>
+                <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">Edad</label>
+                <input type="number" id="patientAge" min="1" max="115" value="62" required 
+                  class="w-full px-3.5 py-2.5 text-sm bg-slate-50 border border-slate-300 rounded-xl focus:bg-white focus:ring-2 focus:ring-brand-500 focus:border-brand-500 outline-none transition">
+              </div>
+              <div>
+                <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">Comunidad / Sector</label>
+                <input type="text" id="patientSector" value="Sector 4 - Las Lomas" required
+                  class="w-full px-3.5 py-2.5 text-sm bg-slate-50 border border-slate-300 rounded-xl focus:bg-white focus:ring-2 focus:ring-brand-500 focus:border-brand-500 outline-none transition">
+              </div>
+            </div>
+
+            <!-- Signos Vitales Clave -->
+            <div class="pt-2">
+              <h4 class="text-xs font-extrabold text-brand-800 uppercase tracking-wider mb-3 flex items-center gap-1.5">
+                <span class="w-2 h-2 rounded-full bg-brand-600"></span> Signos Vitales Digitalizados
+              </h4>
+
+              <div class="grid grid-cols-2 sm:grid-cols-3 gap-3">
+                <!-- Presión Sistólica -->
+                <div class="bg-slate-50 p-3 rounded-xl border border-slate-200">
+                  <div class="flex items-center justify-between mb-1">
+                    <span class="text-xs font-semibold text-slate-600">Sistólica</span>
+                    <span class="text-[10px] text-slate-400">mmHg</span>
+                  </div>
+                  <input type="number" id="vitalSys" value="138" min="60" max="260" required
+                    class="w-full text-lg font-bold text-slate-800 bg-white border border-slate-200 rounded-lg px-2.5 py-1.5 text-center focus:ring-2 focus:ring-brand-500 outline-none">
+                  <span class="block text-[10px] text-slate-400 text-center mt-1">Normal: &lt;120</span>
+                </div>
+
+                <!-- Presión Diastólica -->
+                <div class="bg-slate-50 p-3 rounded-xl border border-slate-200">
+                  <div class="flex items-center justify-between mb-1">
+                    <span class="text-xs font-semibold text-slate-600">Diastólica</span>
+                    <span class="text-[10px] text-slate-400">mmHg</span>
+                  </div>
+                  <input type="number" id="vitalDia" value="88" min="40" max="160" required
+                    class="w-full text-lg font-bold text-slate-800 bg-white border border-slate-200 rounded-lg px-2.5 py-1.5 text-center focus:ring-2 focus:ring-brand-500 outline-none">
+                  <span class="block text-[10px] text-slate-400 text-center mt-1">Normal: &lt;80</span>
+                </div>
+
+                <!-- Glucosa -->
+                <div class="bg-slate-50 p-3 rounded-xl border border-slate-200 col-span-2 sm:col-span-1">
+                  <div class="flex items-center justify-between mb-1">
+                    <span class="text-xs font-semibold text-slate-600">Glucosa</span>
+                    <span class="text-[10px] text-slate-400">mg/dL</span>
+                  </div>
+                  <input type="number" id="vitalGlucose" value="142" min="30" max="500" required
+                    class="w-full text-lg font-bold text-slate-800 bg-white border border-slate-200 rounded-lg px-2.5 py-1.5 text-center focus:ring-2 focus:ring-brand-500 outline-none">
+                  <span class="block text-[10px] text-slate-400 text-center mt-1">En ayunas: 70-100</span>
+                </div>
+              </div>
+
+              <!-- Frecuencia Cardíaca y Temp opcional -->
+              <div class="grid grid-cols-2 gap-3 mt-3">
+                <div class="bg-slate-50 p-3 rounded-xl border border-slate-200">
+                  <div class="flex items-center justify-between mb-1">
+                    <span class="text-xs font-semibold text-slate-600">Pulso / FC</span>
+                    <span class="text-[10px] text-slate-400">LPM</span>
+                  </div>
+                  <input type="number" id="vitalHr" value="78" min="30" max="220" required
+                    class="w-full text-lg font-bold text-slate-800 bg-white border border-slate-200 rounded-lg px-2.5 py-1.5 text-center focus:ring-2 focus:ring-brand-500 outline-none">
+                  <span class="block text-[10px] text-slate-400 text-center mt-1">Normal: 60-100</span>
+                </div>
+
+                <div class="bg-slate-50 p-3 rounded-xl border border-slate-200">
+                  <div class="flex items-center justify-between mb-1">
+                    <span class="text-xs font-semibold text-slate-600">Saturación O2</span>
+                    <span class="text-[10px] text-slate-400">% SpO2</span>
+                  </div>
+                  <input type="number" id="vitalSpo2" value="97" min="60" max="100" required
+                    class="w-full text-lg font-bold text-slate-800 bg-white border border-slate-200 rounded-lg px-2.5 py-1.5 text-center focus:ring-2 focus:ring-brand-500 outline-none">
+                  <span class="block text-[10px] text-slate-400 text-center mt-1">Normal: &gt;95%</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Síntomas Reportados (Checkboxes Accesibles) -->
+            <div>
+              <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-2">Síntomas Actuales Reportados</label>
+              <div class="grid grid-cols-2 gap-2 text-xs">
+                <label class="flex items-center space-x-2.5 p-2.5 border border-slate-200 rounded-xl cursor-pointer hover:bg-slate-50 transition">
+                  <input type="checkbox" name="symptoms" value="Mareos o desmayo" class="w-4 h-4 text-brand-600 rounded focus:ring-brand-500 border-slate-300">
+                  <span class="font-medium text-slate-700">Mareos o vahído</span>
+                </label>
+                <label class="flex items-center space-x-2.5 p-2.5 border border-slate-200 rounded-xl cursor-pointer hover:bg-slate-50 transition">
+                  <input type="checkbox" name="symptoms" value="Visión borrosa" class="w-4 h-4 text-brand-600 rounded focus:ring-brand-500 border-slate-300">
+                  <span class="font-medium text-slate-700">Visión borrosa</span>
+                </label>
+                <label class="flex items-center space-x-2.5 p-2.5 border border-slate-200 rounded-xl cursor-pointer hover:bg-slate-50 transition">
+                  <input type="checkbox" name="symptoms" value="Dolor de cabeza fuerte" class="w-4 h-4 text-brand-600 rounded focus:ring-brand-500 border-slate-300">
+                  <span class="font-medium text-slate-700">Cefalea / Dolor intenso</span>
+                </label>
+                <label class="flex items-center space-x-2.5 p-2.5 border border-slate-200 rounded-xl cursor-pointer hover:bg-slate-50 transition">
+                  <input type="checkbox" name="symptoms" value="Dificultad respiratoria" class="w-4 h-4 text-brand-600 rounded focus:ring-brand-500 border-slate-300">
+                  <span class="font-medium text-slate-700">Falta de aire</span>
+                </label>
+              </div>
+            </div>
+
+            <!-- Botón de Envío -->
+            <div class="pt-3">
+              <button type="submit" class="w-full py-3.5 px-4 rounded-xl bg-gradient-to-r from-brand-600 to-brand-700 text-white font-bold text-sm shadow-lg hover:shadow-brand-500/25 hover:from-brand-700 hover:to-brand-800 transform active:scale-[0.99] transition flex items-center justify-center gap-2">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>
+                <span>Generar Triage y Registrar</span>
+              </button>
+            </div>
+
+          </form>
+        </div>
+
+        <!-- Mini guía de semaforización clínica -->
+        <div class="mt-4 p-3.5 bg-slate-100 rounded-xl text-slate-600 text-xs flex items-center justify-between">
+          <div class="flex items-center gap-2">
+            <span class="w-2.5 h-2.5 rounded-full bg-emerald-500"></span>
+            <span>Normal</span>
+          </div>
+          <div class="flex items-center gap-2">
+            <span class="w-2.5 h-2.5 rounded-full bg-amber-500"></span>
+            <span>Riesgo / Alerta Moderada</span>
+          </div>
+          <div class="flex items-center gap-2">
+            <span class="w-2.5 h-2.5 rounded-full bg-rose-500"></span>
+            <span>Urgencia Crítica</span>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ======================================================== -->
+    <!-- VISTA B: PANEL DE TELEMONITOREO MÉDICO / POSTA DE SALUD -->
+    <!-- ======================================================== -->
+    <section id="view-doctor" class="hidden">
+      
+      <!-- Encabezado de la Posta -->
+      <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-6">
+        <div>
+          <div class="flex items-center gap-2">
+            <h2 class="text-2xl font-bold text-slate-900">Centro de Salud Comunitario San Pedro</h2>
+            <span class="px-2.5 py-0.5 rounded-full text-xs font-semibold bg-blue-50 text-trust-600 border border-blue-200">Jurisdicción Sur</span>
+          </div>
+          <p class="text-xs text-slate-500 mt-0.5">Monitoreo activo de factores de riesgo crónico en tiempo real.</p>
+        </div>
+
+        <div class="flex items-center gap-2">
+          <button onclick="exportDataCSV()" class="px-3.5 py-2 text-xs font-semibold bg-white border border-slate-300 rounded-xl hover:bg-slate-50 text-slate-700 flex items-center gap-1.5 shadow-sm">
+            <svg class="w-4 h-4 text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
+            Exportar Reporte
+          </button>
+          <button onclick="reloadDefaultData()" class="px-3.5 py-2 text-xs font-semibold bg-white border border-slate-300 rounded-xl hover:bg-slate-50 text-slate-700 flex items-center gap-1.5 shadow-sm">
+            <svg class="w-4 h-4 text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg>
+            Reset Demos
+          </button>
+        </div>
+      </div>
+
+      <!-- Tarjetas de Métricas Clave -->
+      <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+        <!-- Total Registrados -->
+        <div class="bg-white p-4 sm:p-5 rounded-2xl border border-slate-200 shadow-sm flex items-center justify-between">
+          <div>
+            <p class="text-xs font-bold text-slate-500 uppercase tracking-wider">Total Pacientes</p>
+            <p id="metricTotalPatients" class="text-2xl sm:text-3xl font-extrabold text-slate-800 mt-1">4</p>
+            <p class="text-[11px] text-emerald-600 font-medium mt-1">● 100% seguimiento barrial</p>
+          </div>
+          <div class="w-12 h-12 rounded-xl bg-slate-100 flex items-center justify-center text-slate-600">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"/></svg>
+          </div>
+        </div>
+
+        <!-- Alertas Rojas (Críticas) -->
+        <div class="bg-rose-50/70 p-4 sm:p-5 rounded-2xl border border-rose-200 shadow-sm flex items-center justify-between">
+          <div>
+            <p class="text-xs font-bold text-rose-700 uppercase tracking-wider">Alertas Críticas</p>
+            <p id="metricRedAlerts" class="text-2xl sm:text-3xl font-extrabold text-rose-700 mt-1">1</p>
+            <p class="text-[11px] text-rose-600 font-medium mt-1 flex items-center gap-1">
+              <span class="w-2 h-2 rounded-full bg-rose-500 animate-ping"></span> Derivación inmediata
+            </p>
+          </div>
+          <div class="w-12 h-12 rounded-xl bg-rose-100 flex items-center justify-center text-rose-600">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/></svg>
+          </div>
+        </div>
+
+        <!-- Alertas Amarillas (Moderadas) -->
+        <div class="bg-amber-50/70 p-4 sm:p-5 rounded-2xl border border-amber-200 shadow-sm flex items-center justify-between">
+          <div>
+            <p class="text-xs font-bold text-amber-700 uppercase tracking-wider">En Observación</p>
+            <p id="metricYellowAlerts" class="text-2xl sm:text-3xl font-extrabold text-amber-700 mt-1">2</p>
+            <p class="text-[11px] text-amber-700 font-medium mt-1">Ajuste de medicación/dieta</p>
+          </div>
+          <div class="w-12 h-12 rounded-xl bg-amber-100 flex items-center justify-center text-amber-600">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+          </div>
+        </div>
+
+        <!-- Casos Estables (Verdes) -->
+        <div class="bg-emerald-50/70 p-4 sm:p-5 rounded-2xl border border-emerald-200 shadow-sm flex items-center justify-between">
+          <div>
+            <p class="text-xs font-bold text-emerald-800 uppercase tracking-wider">Estables / Control</p>
+            <p id="metricGreenAlerts" class="text-2xl sm:text-3xl font-extrabold text-emerald-800 mt-1">1</p>
+            <p class="text-[11px] text-emerald-700 font-medium mt-1">Monitoreo quincenal</p>
+          </div>
+          <div class="w-12 h-12 rounded-xl bg-emerald-100 flex items-center justify-center text-emerald-700">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+          </div>
+        </div>
+      </div>
+
+      <!-- Filtros y Búsqueda -->
+      <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm mb-5 flex flex-col sm:flex-row items-center justify-between gap-3">
+        <!-- Input de búsqueda -->
+        <div class="relative w-full sm:w-72">
+          <input type="text" id="searchInput" oninput="applyFilters()" placeholder="Buscar paciente o sector..." 
+            class="w-full pl-9 pr-3 py-2 text-xs bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:ring-2 focus:ring-brand-500 outline-none">
+          <svg class="w-4 h-4 text-slate-400 absolute left-3 top-2.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+        </div>
+
+        <!-- Filtro por severidad -->
+        <div class="flex items-center space-x-1 w-full sm:w-auto overflow-x-auto pb-1 sm:pb-0">
+          <button onclick="setFilterCategory('all')" id="filter-all" class="filter-chip px-3 py-1.5 rounded-lg text-xs font-semibold bg-slate-900 text-white">Todos</button>
+          <button onclick="setFilterCategory('critical')" id="filter-critical" class="filter-chip px-3 py-1.5 rounded-lg text-xs font-semibold bg-slate-100 text-rose-700 hover:bg-rose-50">Críticos (Rojo)</button>
+          <button onclick="setFilterCategory('moderate')" id="filter-moderate" class="filter-chip px-3 py-1.5 rounded-lg text-xs font-semibold bg-slate-100 text-amber-700 hover:bg-amber-50">Moderados (Amarillo)</button>
+          <button onclick="setFilterCategory('normal')" id="filter-normal" class="filter-chip px-3 py-1.5 rounded-lg text-xs font-semibold bg-slate-100 text-emerald-700 hover:bg-emerald-50">Estables (Verde)</button>
+        </div>
+      </div>
+
+      <!-- Tabla de Triaje Comunitario -->
+      <div class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
+        <div class="overflow-x-auto">
+          <table class="w-full text-left border-collapse">
+            <thead>
+              <tr class="bg-slate-50 border-b border-slate-200 text-[11px] font-bold text-slate-500 uppercase tracking-wider">
+                <th class="py-3.5 px-4">Prioridad / Paciente</th>
+                <th class="py-3.5 px-3">Ubicación / Edad</th>
+                <th class="py-3.5 px-3 text-center">Presión Art.</th>
+                <th class="py-3.5 px-3 text-center">Glucosa</th>
+                <th class="py-3.5 px-3 text-center">FC / SpO2</th>
+                <th class="py-3.5 px-3">Síntomas / Hallazgos</th>
+                <th class="py-3.5 px-3">Hora</th>
+                <th class="py-3.5 px-4 text-right">Acción Rápida</th>
+              </tr>
+            </thead>
+            <tbody id="patientsTableBody" class="divide-y divide-slate-100 text-xs">
+              <!-- Renderizado dinámico vía JavaScript -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- ======================================================== -->
+    <!-- VISTA C: FICHA TÉCNICA DEL PROYECTO PARA CONCURSO        -->
+    <!-- ======================================================== -->
+    <section id="view-pitch" class="hidden">
+      
+      <div class="max-w-4xl mx-auto space-y-6">
+
+        <!-- Header Ficha -->
+        <div class="bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-sm">
+          <div class="flex flex-wrap items-center justify-between gap-3 pb-4 border-b border-slate-100">
+            <div>
+              <span class="text-xs font-extrabold text-brand-600 uppercase tracking-widest">Postulación Oficial CientíficaHack 2026</span>
+              <h1 class="text-2xl sm:text-3xl font-extrabold text-slate-900 mt-1">TeleVigía: Red Preventiva y Triage Periférico</h1>
+              <p class="text-xs text-slate-500 mt-1">Desafío: <strong>Acceso a Servicios de Salud (ODS 3)</strong></p>
+            </div>
+            <div class="flex items-center gap-2">
+              <span class="px-3 py-1 bg-emerald-50 text-emerald-700 border border-emerald-200 rounded-lg text-xs font-bold">Viabilidad: 20%</span>
+              <span class="px-3 py-1 bg-sky-50 text-sky-700 border border-sky-200 rounded-lg text-xs font-bold">Innovación: 20%</span>
+            </div>
+          </div>
+
+          <!-- Grilla de Bloques Técnicos -->
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
+            
+            <!-- Problema y Dolor -->
+            <div class="bg-slate-50 p-4 rounded-xl border border-slate-200">
+              <h3 class="text-sm font-bold text-slate-800 flex items-center gap-2 mb-2">
+                <span class="w-2 h-2 rounded-full bg-rose-500"></span> 1. El Problema Real
+              </h3>
+              <p class="text-xs text-slate-600 leading-relaxed">
+                En zonas periurbanas y rurales, el <strong>primer nivel de atención</strong> está congestionado por casos crónicos descompensados. Los pacientes pierden días enteros de jornales para chequeos rutinarios, derivando en un diagnóstico tardío de crisis hipertensivas o glucémicas que colapsan emergencias de hospitales de mayor complejidad.
+              </p>
+            </div>
+
+            <!-- Solución e Innovación -->
+            <div class="bg-slate-50 p-4 rounded-xl border border-slate-200">
+              <h3 class="text-sm font-bold text-slate-800 flex items-center gap-2 mb-2">
+                <span class="w-2 h-2 rounded-full bg-brand-600"></span> 2. Propuesta de Valor
+              </h3>
+              <p class="text-xs text-slate-600 leading-relaxed">
+                <strong>TeleVigía</strong> empodera a los agentes y promotores comunitarios de salud con una herramienta digital <strong>"Offline-First"</strong>. Permite tamizajes rápidos en el domicilio, clasificación automática de riesgo clínico y sincronización instantánea con el médico de la posta local tan pronto se detecta señal.
+              </p>
+            </div>
+
+            <!-- Arquitectura Offline-First -->
+            <div class="bg-slate-50 p-4 rounded-xl border border-slate-200">
+              <h3 class="text-sm font-bold text-slate-800 flex items-center gap-2 mb-2">
+                <span class="w-2 h-2 rounded-full bg-trust-500"></span> 3. Arquitectura Tecnológica
+              </h3>
+              <ul class="text-xs text-slate-600 space-y-1.5 list-disc list-inside">
+                <li><strong>Local Cache / PWA:</strong> Almacena lecturas en la memoria del dispositivo ante cortes de señal 3G/4G.</li>
+                <li><strong>Reglas de Triage Clínico:</strong> Algoritmo estandarizado basado en guías MINSA para estratificación de riesgo.</li>
+                <li><strong>Dashboard Centralizado:</strong> Monitoreo médico por semáforo prioritario para teleorientación o rescate.</li>
+              </ul>
+            </div>
+
+            <!-- Modelo de Sostenibilidad -->
+            <div class="bg-slate-50 p-4 rounded-xl border border-slate-200">
+              <h3 class="text-sm font-bold text-slate-800 flex items-center gap-2 mb-2">
+                <span class="w-2 h-2 rounded-full bg-amber-500"></span> 4. Modelo Sostenible (B2G / Social)
+              </h3>
+              <p class="text-xs text-slate-600 leading-relaxed">
+                Implementación mediante convenios con <strong>Redes Integradas de Salud (DIRIS)</strong>, Municipalidades (salud comunitaria) y programas de responsabilidad social de clínicas y aseguradoras que buscan reducir costos de urgencias mediante prevención efectiva.
+              </p>
+            </div>
+
+          </div>
+
+          <!-- Estructura del Equipo (Cumplimiento de Bases) -->
+          <div class="mt-6 pt-5 border-t border-slate-100">
+            <h3 class="text-xs font-bold text-slate-800 uppercase tracking-wider mb-3">Equipo Multidisciplinario (4 Integrantes UCSUR)</h3>
+            <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 text-xs">
+              <div class="p-3 bg-white border border-slate-200 rounded-xl">
+                <p class="font-bold text-slate-800">Líder Biomédico</p>
+                <p class="text-slate-500 text-[11px]">Validación clínica y calibración de signos vitales</p>
+                <span class="inline-block mt-2 text-[10px] px-2 py-0.5 rounded bg-emerald-100 text-emerald-800 font-semibold">Pregrado</span>
+              </div>
+              <div class="p-3 bg-white border border-slate-200 rounded-xl">
+                <p class="font-bold text-slate-800">Desarrollo Software</p>
+                <p class="text-slate-500 text-[11px]">Arquitectura PWA, bases de datos y sincronización</p>
+                <span class="inline-block mt-2 text-[10px] px-2 py-0.5 rounded bg-emerald-100 text-emerald-800 font-semibold">Pregrado</span>
+              </div>
+              <div class="p-3 bg-white border border-slate-200 rounded-xl">
+                <p class="font-bold text-slate-800">Salud Pública / Med.</p>
+                <p class="text-slate-500 text-[11px]">Protocolos de triage y vínculo con promotores</p>
+                <span class="inline-block mt-2 text-[10px] px-2 py-0.5 rounded bg-emerald-100 text-emerald-800 font-semibold">Pregrado</span>
+              </div>
+              <div class="p-3 bg-white border border-slate-200 rounded-xl">
+                <p class="font-bold text-slate-800">Gestión e Impacto</p>
+                <p class="text-slate-500 text-[11px]">Modelo de negocio, alianzas y finanzas</p>
+                <span class="inline-block mt-2 text-[10px] px-2 py-0.5 rounded bg-blue-100 text-blue-800 font-semibold">Docente / Asesor</span>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+
+    </section>
+
+  </main>
+
+  <!-- ================= MODAL ACCIÓN MÉDICA ================= -->
+  <div id="actionModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+    <div class="bg-white rounded-2xl max-w-md w-full p-6 shadow-2xl border border-slate-200 transform transition-all">
+      <div class="flex items-center justify-between pb-3 border-b border-slate-100">
+        <h3 id="modalPatientTitle" class="text-base font-bold text-slate-900">Acción de Teleorientación</h3>
+        <button onclick="closeModal()" class="text-slate-400 hover:text-slate-600 text-lg">&times;</button>
+      </div>
+
+      <div class="py-4 space-y-3">
+        <div id="modalPatientSummary" class="p-3 bg-slate-50 rounded-xl text-xs space-y-1 text-slate-600">
+          <!-- Información inyectada -->
+        </div>
+
+        <div>
+          <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">Indicación Médica Inmediata</label>
+          <textarea id="modalNotes" rows="3" class="w-full text-xs p-3 border border-slate-200 rounded-xl outline-none focus:ring-2 focus:ring-brand-500" placeholder="Escriba la indicación para el promotor de salud o paciente..."></textarea>
+        </div>
+      </div>
+
+      <div class="flex items-center justify-end gap-2 pt-2 border-t border-slate-100">
+        <button onclick="closeModal()" class="px-4 py-2 text-xs font-semibold text-slate-600 hover:bg-slate-100 rounded-xl">Cancelar</button>
+        <button onclick="confirmActionModal()" class="px-4 py-2 text-xs font-bold text-white bg-brand-600 hover:bg-brand-700 rounded-xl shadow-md">Confirmar y Notificar</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================= JAVASCRIPT LOGIC ================= -->
+  <script>
+    // ESTADO GLOBAL DE LA APLICACIÓN
+    let isOnlineMode = true;
+    let pendingOfflineSyncCount = 0;
+    let currentFilter = 'all';
+    let activeModalPatientId = null;
+
+    // PACIENTES PRECARGADOS (Casos representativos de comunidades vulnerables)
+    let defaultPatients = [
+      {
+        id: 1,
+        name: "Doña Rosa Quispe",
+        dni: "08472911",
+        age: 68,
+        sector: "Asoc. Las Lomas - Mz B Lte 4",
+        sys: 172,
+        dia: 104,
+        glucose: 145,
+        hr: 94,
+        spo2: 95,
+        symptoms: ["Cefalea fuerte", "Visión borrosa"],
+        timestamp: "Hace 15 min",
+        status: "critical" // red
+      },
+      {
+        id: 2,
+        name: "Don Manuel Condori",
+        dni: "10293844",
+        age: 61,
+        sector: "Sector 3 - Ampliación",
+        sys: 135,
+        dia: 88,
+        glucose: 240,
+        hr: 82,
+        spo2: 96,
+        symptoms: ["Sed excesiva", "Mareos"],
+        timestamp: "Hace 42 min",
+        status: "moderate" // yellow
+      },
+      {
+        id: 3,
+        name: "María Elena Farfán",
+        dni: "45839201",
+        age: 54,
+        sector: "Sector 1 - Entrada",
+        sys: 122,
+        dia: 82,
+        glucose: 110,
+        hr: 74,
+        spo2: 98,
+        symptoms: ["Fatiga leve"],
+        timestamp: "Hace 1 hora",
+        status: "moderate" // yellow
+      },
+      {
+        id: 4,
+        name: "Eusebio Huamán",
+        dni: "07261548",
+        age: 72,
+        sector: "Comité 12 - Quebrada",
+        sys: 118,
+        dia: 76,
+        glucose: 92,
+        hr: 68,
+        spo2: 97,
+        symptoms: [],
+        timestamp: "Hace 2 horas",
+        status: "normal" // green
+      }
+    ];
+
+    let patients = [...defaultPatients];
+
+    // INICIALIZACIÓN
+    window.addEventListener('DOMContentLoaded', () => {
+      renderTable();
+      updateMetrics();
+    });
+
+    // CAMBIO DE VISTAS
+    function switchView(viewName) {
+      const views = ['patient', 'doctor', 'pitch'];
+      views.forEach(v => {
+        const viewEl = document.getElementById(`view-${v}`);
+        const btnEl = document.getElementById(`tabBtn-${v}`);
+        
+        if (v === viewName) {
+          viewEl.classList.remove('hidden');
+          btnEl.className = "px-3 sm:px-4 py-1.5 rounded-lg transition-all duration-200 bg-white text-brand-700 font-semibold shadow-sm flex items-center gap-1.5";
+        } else {
+          viewEl.classList.add('hidden');
+          btnEl.className = "px-3 sm:px-4 py-1.5 rounded-lg transition-all duration-200 hover:text-slate-900 text-slate-600 flex items-center gap-1.5";
+        }
+      });
+      // Scroll al inicio suave
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    // TOGGLE MODO OFFLINE / ONLINE
+    function toggleNetworkMode() {
+      isOnlineMode = !isOnlineMode;
+      const btn = document.getElementById('networkToggleBtn');
+      const label = document.getElementById('networkStatusLabel');
+
+      if (isOnlineMode) {
+        btn.className = "flex items-center gap-2 px-3 py-1.5 rounded-full text-xs font-semibold border transition-all duration-200 bg-emerald-50 text-emerald-700 border-emerald-300 hover:bg-emerald-100";
+        label.innerText = pendingOfflineSyncCount > 0 
+          ? `Online (Sincronizados ${pendingOfflineSyncCount} datos)` 
+          : "Online (Sincronizado)";
+        btn.querySelector('span').className = "w-2.5 h-2.5 rounded-full bg-emerald-500 inline-block animate-pulse";
+        
+        if (pendingOfflineSyncCount > 0) {
+          showToast("Datos Sincronizados", `${pendingOfflineSyncCount} registros locales subidos a la red central de la posta.`, "success");
+          pendingOfflineSyncCount = 0;
+        } else {
+          showToast("Conexión Restablecida", "Operando en modo de sincronización en tiempo real.", "info");
+        }
+      } else {
+        btn.className = "flex items-center gap-2 px-3 py-1.5 rounded-full text-xs font-semibold border transition-all duration-200 bg-amber-50 text-amber-700 border-amber-300 hover:bg-amber-100";
+        label.innerText = "Modo Offline (Guardando local)";
+        btn.querySelector('span').className = "w-2.5 h-2.5 rounded-full bg-amber-500 inline-block";
+        showToast("Modo Offline Activado", "Los triajes se almacenarán en la memoria local y se sincronizarán al recuperar señal.", "warning");
+      }
+    }
+
+    // CLASIFICADOR DE RIESGO CLÍNICO SEGÚN GUIAS MÉDICAS
+    function calculateClinicalRisk(sys, dia, glucose, symptomsCount) {
+      // Criterios de Emergencia Crítica (Rojo)
+      // Presión grado 3 / crisis hipertensiva o hipoglucemia severa / hiperglucemia crítica
+      if (sys >= 160 || dia >= 100 || glucose >= 280 || glucose < 60 || symptomsCount >= 3) {
+        return "critical";
+      }
+      // Criterios de Riesgo Moderado (Amarillo)
+      // Hipertensión grado 1-2 o hiperglucemia moderada
+      if (sys >= 130 || dia >= 85 || glucose >= 126 || symptomsCount >= 1) {
+        return "moderate";
+      }
+      // Parámetros dentro del rango preventivo aceptable
+      return "normal";
+    }
+
+    // ENVIAR FORMULARIO DE SIGNOS VITALES
+    function handleVitalsSubmit(event) {
+      event.preventDefault();
+
+      const name = document.getElementById('patientName').value.trim();
+      const dni = document.getElementById('patientDni').value.trim() || 'No registrado';
+      const age = parseInt(document.getElementById('patientAge').value);
+      const sector = document.getElementById('patientSector').value.trim();
+      const sys = parseInt(document.getElementById('vitalSys').value);
+      const dia = parseInt(document.getElementById('vitalDia').value);
+      const glucose = parseInt(document.getElementById('vitalGlucose').value);
+      const hr = parseInt(document.getElementById('vitalHr').value);
+      const spo2 = parseInt(document.getElementById('vitalSpo2').value);
+
+      // Obtener síntomas marcados
+      const symptomCheckboxes = document.querySelectorAll('input[name="symptoms"]:checked');
+      const selectedSymptoms = Array.from(symptomCheckboxes).map(cb => cb.value);
+
+      const calculatedRisk = calculateClinicalRisk(sys, dia, glucose, selectedSymptoms.length);
+
+      const newRecord = {
+        id: Date.now(),
+        name,
+        dni,
+        age,
+        sector,
+        sys,
+        dia,
+        glucose,
+        hr,
+        spo2,
+        symptoms: selectedSymptoms,
+        timestamp: "Recién registrado",
+        status: calculatedRisk,
+        isNew: true
+      };
+
+      // Agregar al inicio del arreglo
+      patients.unshift(newRecord);
+
+      if (!isOnlineMode) {
+        pendingOfflineSyncCount++;
+      }
+
+      renderTable();
+      updateMetrics();
+
+      // Resetear campos principales dejando contexto
+      document.getElementById('patientName').value = '';
+      document.getElementById('patientDni').value = '';
+      symptomCheckboxes.forEach(cb => cb.checked = false);
+
+      // Notificación visual de éxito con semáforo
+      let statusMsg = "Paciente clasificado como Estable (Control regular).";
+      let toastType = "success";
+      if (calculatedRisk === "critical") {
+        statusMsg = "ALERTA ROJA: Valores críticos detectados. Notificación prioritaria enviada a la Posta.";
+        toastType = "error";
+      } else if (calculatedRisk === "moderate") {
+        statusMsg = "ALERTA AMARILLA: Parámetros alterados. Derivado a telemonitoreo preventivo.";
+        toastType = "warning";
+      }
+
+      showToast("Ficha Registrada con Éxito", statusMsg, toastType);
+
+      // Ofrecer cambio automático a la vista del médico para ver el impacto
+      setTimeout(() => {
+        switchView('doctor');
+      }, 1000);
+    }
+
+    // RENDERIZADO DE TABLA MÉDICA
+    function renderTable() {
+      const tbody = document.getElementById('patientsTableBody');
+      const query = (document.getElementById('searchInput')?.value || '').toLowerCase();
+      
+      tbody.innerHTML = '';
+
+      const filtered = patients.filter(p => {
+        const matchesCategory = currentFilter === 'all' || p.status === currentFilter;
+        const matchesQuery = p.name.toLowerCase().includes(query) || p.sector.toLowerCase().includes(query) || p.dni.includes(query);
+        return matchesCategory && matchesQuery;
+      });
+
+      if (filtered.length === 0) {
+        tbody.innerHTML = `
+          <tr>
+            <td colspan="8" class="text-center py-8 text-slate-400">
+              No se encontraron registros con los filtros seleccionados.
+            </td>
+          </tr>
+        `;
+        return;
+      }
+
+      filtered.forEach(p => {
+        const tr = document.createElement('tr');
+        tr.className = `hover:bg-slate-50/80 transition ${p.isNew ? 'bg-emerald-50/50' : ''}`;
+
+        // Badge de Prioridad
+        let badgeHTML = '';
+        if (p.status === 'critical') {
+          badgeHTML = `<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[10px] font-extrabold bg-rose-100 text-rose-700 border border-rose-200">
+            <span class="w-1.5 h-1.5 rounded-full bg-rose-600 animate-ping"></span> CRÍTICO
+          </span>`;
+        } else if (p.status === 'moderate') {
+          badgeHTML = `<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[10px] font-bold bg-amber-100 text-amber-800 border border-amber-200">
+            <span class="w-1.5 h-1.5 rounded-full bg-amber-500"></span> MODERADO
+          </span>`;
+        } else {
+          badgeHTML = `<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[10px] font-semibold bg-emerald-100 text-emerald-800 border border-emerald-200">
+            <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span> ESTABLE
+          </span>`;
+        }
+
+        // Resaltar valores fuera de rango
+        const sysColor = p.sys >= 140 ? 'text-rose-600 font-extrabold' : (p.sys >= 130 ? 'text-amber-600 font-bold' : 'text-slate-700');
+        const glucColor = p.glucose >= 180 ? 'text-rose-600 font-extrabold' : (p.glucose >= 126 ? 'text-amber-600 font-bold' : 'text-slate-700');
+
+        // Síntomas en chips
+        const symptomsChips = p.symptoms.length > 0 
+          ? p.symptoms.map(s => `<span class="inline-block bg-slate-100 text-slate-600 text-[10px] px-2 py-0.5 rounded-md mr-1 mb-1 font-medium">${s}</span>`).join('')
+          : `<span class="text-slate-400 italic text-[11px]">Asintomático</span>`;
+
+        tr.innerHTML = `
+          <td class="py-3 px-4">
+            <div class="flex items-center space-x-2.5">
+              ${badgeHTML}
+              <div>
+                <p class="font-bold text-slate-800 text-xs">${p.name}</p>
+                <p class="text-[10px] text-slate-400">DNI: ${p.dni}</p>
+              </div>
+            </div>
+          </td>
+          <td class="py-3 px-3">
+            <p class="text-slate-700 font-medium text-xs">${p.sector}</p>
+            <p class="text-[10px] text-slate-400">${p.age} años</p>
+          </td>
+          <td class="py-3 px-3 text-center">
+            <span class="${sysColor} text-xs">${p.sys}/${p.dia}</span>
+            <span class="block text-[9px] text-slate-400">mmHg</span>
+          </td>
+          <td class="py-3 px-3 text-center">
+            <span class="${glucColor} text-xs">${p.glucose}</span>
+            <span class="block text-[9px] text-slate-400">mg/dL</span>
+          </td>
+          <td class="py-3 px-3 text-center">
+            <span class="text-slate-700 font-medium text-xs">${p.hr} bpm</span>
+            <span class="block text-[10px] ${p.spo2 < 95 ? 'text-rose-600 font-bold' : 'text-slate-400'}">${p.spo2}% SpO2</span>
+          </td>
+          <td class="py-3 px-3 max-w-[200px]">
+            <div class="flex flex-wrap">${symptomsChips}</div>
+          </td>
+          <td class="py-3 px-3 text-slate-500 text-[11px] whitespace-nowrap">
+            ${p.timestamp}
+          </td>
+          <td class="py-3 px-4 text-right">
+            <div class="flex items-center justify-end space-x-1.5">
+              <button onclick="openActionModal(${p.id}, 'teleconsulta')" title="Iniciar Teleorientación" class="p-1.5 rounded-lg bg-sky-50 text-trust-600 hover:bg-sky-100 transition">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>
+              </button>
+              <button onclick="openActionModal(${p.id}, 'whatsapp')" title="Aviso al Promotor Barrial" class="p-1.5 rounded-lg bg-emerald-50 text-emerald-700 hover:bg-emerald-100 transition">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/></svg>
+              </button>
+              ${p.status === 'critical' ? `
+                <button onclick="openActionModal(${p.id}, 'urgencia')" title="Derivación Inmediata" class="p-1.5 rounded-lg bg-rose-50 text-rose-600 hover:bg-rose-100 transition">
+                  <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+                </button>
+              ` : ''}
+            </div>
+          </td>
+        `;
+
+        tbody.appendChild(tr);
+      });
+    }
+
+    // ACTUALIZAR MÉTRICAS NUMÉRICAS
+    function updateMetrics() {
+      document.getElementById('metricTotalPatients').innerText = patients.length;
+      document.getElementById('metricRedAlerts').innerText = patients.filter(p => p.status === 'critical').length;
+      document.getElementById('metricYellowAlerts').innerText = patients.filter(p => p.status === 'moderate').length;
+      document.getElementById('metricGreenAlerts').innerText = patients.filter(p => p.status === 'normal').length;
+    }
+
+    // FILTRADO POR BOTONES
+    function setFilterCategory(cat) {
+      currentFilter = cat;
+      const chips = ['all', 'critical', 'moderate', 'normal'];
+      chips.forEach(c => {
+        const el = document.getElementById(`filter-${c}`);
+        if (c === cat) {
+          el.className = "filter-chip px-3 py-1.5 rounded-lg text-xs font-semibold bg-slate-900 text-white shadow-sm";
+        } else {
+          el.className = "filter-chip px-3 py-1.5 rounded-lg text-xs font-semibold bg-slate-100 text-slate-700 hover:bg-slate-200";
+        }
+      });
+      renderTable();
+    }
+
+    function applyFilters() {
+      renderTable();
+    }
+
+    // MODAL DE ACCIONES
+    function openActionModal(patientId, actionType) {
+      activeModalPatientId = patientId;
+      const patient = patients.find(p => p.id === patientId);
+      if (!patient) return;
+
+      const modal = document.getElementById('actionModal');
+      const title = document.getElementById('modalPatientTitle');
+      const summary = document.getElementById('modalPatientSummary');
+      const notes = document.getElementById('modalNotes');
+
+      if (actionType === 'teleconsulta') {
+        title.innerText = `Agendar Teleorientación: ${patient.name}`;
+        notes.value = "Se recomienda control dietético hiposódico e hidratación. Agendar llamada para verificación de toma de medicación.";
+      } else if (actionType === 'whatsapp') {
+        title.innerText = `Aviso WhatsApp a Promotor Barrial`;
+        notes.value = `Estimado promotor: Por favor realizar visita de seguimiento a ${patient.name} (${patient.sector}) para recalibrar toma de presión.`;
+      } else {
+        title.innerText = `🚨 DERIVACIÓN URGENTE: ${patient.name}`;
+        notes.value = "Coordinar traslado inmediato o visita médica prioritaria por sospecha de crisis hipertensiva/metabólica.";
+      }
+
+      summary.innerHTML = `
+        <div class="flex justify-between font-bold text-slate-800">
+          <span>${patient.name} (${patient.age} años)</span>
+          <span>DNI: ${patient.dni}</span>
+        </div>
+        <p><strong>Ubicación:</strong> ${patient.sector}</p>
+        <p><strong>Último Signo:</strong> PA: ${patient.sys}/${patient.dia} mmHg | Glucosa: ${patient.glucose} mg/dL | SpO2: ${patient.spo2}%</p>
+      `;
+
+      modal.classList.remove('hidden');
+    }
+
+    function closeModal() {
+      document.getElementById('actionModal').classList.add('hidden');
+    }
+
+    function confirmActionModal() {
+      closeModal();
+      showToast("Acción Ejecutada", "La indicación médica fue enviada a la red de promotores locales.", "success");
+    }
+
+    // EXPORTAR REPORTE CSV
+    function exportDataCSV() {
+      let csvContent = "data:text/csv;charset=utf-8,ID,Nombre,DNI,Edad,Sector,Sistolica,Diastolica,Glucosa,FC,SpO2,Riesgo\n";
+      patients.forEach(p => {
+        csvContent += `${p.id},"${p.name}","${p.dni}",${p.age},"${p.sector}",${p.sys},${p.dia},${p.glucose},${p.hr},${p.spo2},"${p.status}"\n`;
+      });
+      const encodedUri = encodeURI(csvContent);
+      const link = document.createElement("a");
+      link.setAttribute("href", encodedUri);
+      link.setAttribute("download", `TeleVigía_Reporte_Triage_${new Date().toISOString().slice(0,10)}.csv`);
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      showToast("Reporte Descargado", "Archivo CSV generado para la jefatura de la Posta Médica.", "info");
+    }
+
+    // RESETEAR DATOS DE DEMO
+    function reloadDefaultData() {
+      patients = [...defaultPatients];
+      renderTable();
+      updateMetrics();
+      showToast("Datos Restaurados", "Se recargaron los casos representativos de la comunidad.", "info");
+    }
+
+    // SISTEMA DE TOAST NO INVASIVO
+    function showToast(title, message, type = "success") {
+      const toast = document.getElementById('toastNotification');
+      const toastBox = document.getElementById('toastBox');
+      const titleEl = document.getElementById('toastTitle');
+      const bodyEl = document.getElementById('toastBody');
+      const iconEl = document.getElementById('toastIcon');
+
+      titleEl.innerText = title;
+      bodyEl.innerText = message;
+
+      if (type === "error") {
+        toastBox.className = "bg-rose-950 text-white px-5 py-3.5 rounded-xl shadow-2xl flex items-center space-x-3 max-w-md border border-rose-800";
+        iconEl.className = "text-rose-400";
+      } else if (type === "warning") {
+        toastBox.className = "bg-amber-950 text-white px-5 py-3.5 rounded-xl shadow-2xl flex items-center space-x-3 max-w-md border border-amber-800";
+        iconEl.className = "text-amber-400";
+      } else {
+        toastBox.className = "bg-slate-900 text-white px-5 py-3.5 rounded-xl shadow-2xl flex items-center space-x-3 max-w-md border border-slate-700";
+        iconEl.className = "text-emerald-400";
+      }
+
+      toast.classList.remove('opacity-0', 'translate-y-24', 'pointer-events-none');
+      toast.classList.add('opacity-100', 'translate-y-0');
+
+      setTimeout(() => {
+        toast.classList.add('opacity-0', 'translate-y-24', 'pointer-events-none');
+        toast.classList.remove('opacity-100', 'translate-y-0');
+      }, 3500);
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,9 @@
+.venv/
+__pycache__/
+data/
+*.pyc
+.playwright/
+test-results/
+dist/
+node_modules/
+.vercel/
