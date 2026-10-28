@@ -1,4 +1,4 @@
-const CACHE='chaski-demo-v2';
+const CACHE='chaski-demo-v3';
 const FILES=['/','/static/style.css','/static/app.js','/static/access.js','/static/icon.svg','/static/manifest.json'];
 self.addEventListener('install',e=>e.waitUntil(caches.open(CACHE).then(c=>c.addAll(FILES)).then(()=>self.skipWaiting())));
 self.addEventListener('activate',e=>e.waitUntil(caches.keys().then(keys=>Promise.all(keys.filter(k=>k!==CACHE).map(k=>caches.delete(k)))).then(()=>self.clients.claim())));

@@ -51,3 +51,7 @@ En **Registrarme**, selecciona el tipo de cuenta y usa un correo ficticio difere
 - **Profesional**: usa colegiatura ficticia `123456`, un establecimiento de ejemplo activo y su ubicación. `654321` representa un profesional no habilitado; otro número representa ausencia de coincidencia. Una posta inactiva bloquea la solicitud. Tras la validación ficticia pulsa **Simular aprobación del coordinador**. Explica que este control representa la revisión futura y no verifica una identidad real.
 
 Pacientes y familiares no tienen la opción Profesional en su sesión. Para cambiar el personaje de la exposición hay que cerrar sesión. Esto es separación de interfaz en un sitio estático, no seguridad de producción.
+
+## Invitación desde el paciente
+
+En **Mi salud → Tu red de cuidado**, pulsa **Enviar mi código de vinculación a un familiar**. Se muestra `CHASKI-ROSA`, un mensaje que puedes copiar y el botón **Simular envío al familiar**. No se envían mensajes reales. Para cerrar el recorrido, cierra sesión, abre **Registrarme → Familiar**, elige a Rosa e introduce ese código, junto con el consentimiento del familiar.

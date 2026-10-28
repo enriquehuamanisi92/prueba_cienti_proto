@@ -13,7 +13,7 @@ function accessUI(){const reg=accessMode==='register';$('loginTab').classList.to
 function enterSession(account){window.demoSession=account;document.body.classList.remove('signed-out');$('accessScreen').classList.add('hidden');$('accountButton').textContent=`${account.name.split(' ')[0]} · Cerrar sesión`;
  document.querySelectorAll('nav [data-view]').forEach(b=>b.classList.toggle('hidden',!window.canAccessView(b.dataset.view)));
  $('patientId').disabled=account.role!=='professional';if(account.role!=='professional')$('patientId').value=account.patientId||'p1';
- $('familyShortcut').classList.toggle('hidden',account.role==='patient');
+ $('familyShortcut').classList.toggle('hidden',account.role==='patient');$('inviteFamilyBtn').classList.toggle('hidden',account.role!=='patient');
  if(account.role==='professional'){document.querySelector('#view-doctor .page-heading p:last-child').textContent=`${account.name} · CMP ${account.cmp} · ${account.facility} · ${account.district} · Validación ficticia`;}else if(account.role==='caregiver'){patient(account.patientId).caregiver=account.name;}
  switchView({patient:'patient',caregiver:'caregiver',professional:'doctor'}[account.role]);toast('Sesión de demostración iniciada. Sin autenticación real.');}
 function logout(){accessMode='login';window.demoSession=null;document.body.classList.add('signed-out');$('accessScreen').classList.remove('hidden');$('accountButton').textContent='Ingresar / Registrarme';document.querySelectorAll('dialog[open]').forEach(d=>d.close());document.querySelectorAll('nav [data-view]').forEach(b=>b.classList.add('hidden'));accessUI();window.scrollTo({top:0});}
@@ -28,3 +28,16 @@ $('accessForm').onsubmit=e=>{e.preventDefault();$('accessError').textContent='';
  registered.push(a);saveAccounts();enterSession(a);toast(accessRole==='caregiver'?'Familiar registrado y vinculado por invitación ficticia.':'Cuenta de paciente creada para la demostración.');};
 // Las cuentas de paciente usan el perfil sintético de Rosa; nunca se crean historias reales.
 logout();
+
+$('inviteFamilyBtn').onclick=()=>{
+ if(window.demoSession?.role!=='patient')return;
+ const p=patient(window.demoSession.patientId||'p1');
+ const codes={p1:'CHASKI-ROSA',p2:'CHASKI-JULIO',p3:'CHASKI-ELENA',p4:'CHASKI-EUSEBIO'};
+ const code=codes[p.id];
+ $('patientInviteCode').textContent=code;$('invitePatientName').textContent=`Paciente de ejemplo: ${p.name}`;
+ $('inviteMessage').value=`Te invito a acompañar mi seguimiento en Chaski Salud (demo). Entra a ${location.origin}, elige Registrarme → Familiar, selecciona ${p.name} e ingresa mi código ${code}. Usa únicamente datos ficticios.`;
+ $('inviteFeedback').classList.add('hidden');$('simulateInvite').disabled=false;$('simulateInvite').textContent='Simular envío al familiar →';$('inviteModal').showModal();
+};
+$('closeInvite').onclick=()=>$('inviteModal').close();
+$('simulateInvite').onclick=()=>{$('inviteFeedback').textContent='✓ Envío simulado al familiar. En la propuesta, recibiría esta invitación por el canal elegido y tendría que aceptar el vínculo. No se ha enviado ningún mensaje real.';$('inviteFeedback').classList.remove('hidden');$('simulateInvite').disabled=true;$('simulateInvite').textContent='✓ Envío simulado';};
+$('copyInvite').onclick=async()=>{try{await navigator.clipboard.writeText($('inviteMessage').value);$('inviteFeedback').textContent='Invitación copiada. Puedes pegarla para mostrar el flujo de vinculación de la demo.';$('inviteFeedback').classList.remove('hidden');}catch{$('inviteMessage').focus();$('inviteMessage').select();$('inviteFeedback').textContent='Selecciona y copia el mensaje mostrado (Ctrl+C o la opción Copiar de tu dispositivo).';$('inviteFeedback').classList.remove('hidden');}};
