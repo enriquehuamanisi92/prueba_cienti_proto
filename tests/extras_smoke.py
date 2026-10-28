@@ -1,0 +1,53 @@
+import functools,http.server,threading
+from playwright.sync_api import sync_playwright
+server=http.server.ThreadingHTTPServer(('127.0.0.1',3011),functools.partial(http.server.SimpleHTTPRequestHandler,directory='dist'))
+threading.Thread(target=server.serve_forever,daemon=True).start()
+with sync_playwright() as p:
+ b=p.chromium.launch(executable_path='/usr/bin/chromium',args=['--no-sandbox'])
+ page=b.new_page(viewport={'width':390,'height':844});errors=[]
+ page.on('pageerror',lambda e:errors.append(str(e)))
+ page.clock.install()
+ page.goto('http://127.0.0.1:3011')
+ page.locator('#registerTab').click();page.locator('[data-access-role=caregiver]').click()
+ page.locator('#accessName').fill('Familiar por telefono');page.locator('#accessPhone').fill('900000088');page.locator('#accessEmail').fill('telefono@test.demo')
+ page.locator('#linkMethod').select_option('phone');page.locator('#patientPhoneLookup').fill('900000001')
+ assert 'Rosa Quispe' in page.locator('#phoneMatch').inner_text()
+ page.locator('#familyConsent').check();page.locator('#registerConsent').check();page.locator('#accessSubmit').click()
+ assert 'Aún no estás vinculado' in page.locator('#accessError').inner_text()
+ page.locator('#loginTab').click();page.locator('#accessEmail').fill('telefono@test.demo');page.locator('#accessSubmit').click()
+ assert 'pendiente' in page.locator('#accessError').inner_text()
+ page.locator('[data-access-role=patient]').click();page.locator('#accessSubmit').click()
+ assert page.locator('#linkRequestsCard').is_visible()
+ page.locator('[data-link-approve]').click()
+ assert not page.locator('#linkRequestsCard').is_visible()
+ page.locator('#inviteFamilyBtn').click()
+ assert page.locator('#inviteQr').evaluate('(e)=>e.complete && e.naturalWidth>0')
+ page.locator('#closeInvite').click()
+ page.locator('#emergencyName').fill('Contacto Extra');page.locator('#emergencyPhone').fill('900000099');page.locator('#emergencyConsent').check();page.locator('#emergencyForm button').click()
+ # foto opcional exige confirmación y conserva constancia, no imagen
+ page.locator('[data-preset=alarm]').click()
+ page.locator('#meterPhoto').set_input_files('static/icon.svg')
+ page.locator('#consent').check();page.locator('#submitMeasurement').click()
+ assert 'Confirma' in page.locator('#formError').inner_text()
+ page.locator('#photoConfirmed').check();page.locator('#submitMeasurement').click()
+ assert page.evaluate('cases[0].measurement.photoReviewed')
+ assert page.evaluate('cases[0].events.some(e=>e.kind==="foto")')
+ # Comprueba el reloj automático, sin esperar 30 segundos reales.
+ page.clock.fast_forward(31000)
+ assert page.evaluate('cases[0].events.some(e=>e.kind==="escalada" && e.detail.includes("900000099"))')
+ count=page.evaluate('cases[0].events.filter(e=>e.kind==="escalada").length')
+ page.clock.fast_forward(31000)
+ assert page.evaluate('cases[0].events.filter(e=>e.kind==="escalada").length')==count==1
+ page.locator('#accountButton').click();page.locator('[data-access-role=caregiver]').click();page.locator('#accessEmail').fill('telefono@test.demo');page.locator('#accessSubmit').click()
+ assert page.locator('#view-caregiver').is_visible()
+ page.locator('#familyList [data-confirm]').first.click()
+ page.locator('#accountButton').click();page.locator('[data-access-role=professional]').click();page.locator('#accessSubmit').click()
+ assert '1 confirmadas / 4 enviadas' in page.locator('#confirmationMetric').inner_text()
+ assert '25 %' in page.locator('#confirmationMetric').inner_text()
+ page.locator('#accountButton').click();page.locator('#registerTab').click();page.locator('[data-access-role=caregiver]').click();page.locator('#linkMethod').select_option('qr');page.locator('#simulateQrScan').click()
+ assert page.locator('#invitationCode').input_value()=='CHASKI-ROSA'
+ assert page.evaluate('document.documentElement.scrollWidth<=innerWidth')
+ assert not errors,errors
+ b.close()
+server.shutdown()
+print('OK: solicitud por teléfono pendiente y aprobación, QR, confirmación de foto, escalamiento automático sin duplicados y porcentaje exacto 1/4 = 25%; móvil sin errores JS.')

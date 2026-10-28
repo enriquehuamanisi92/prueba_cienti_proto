@@ -55,3 +55,10 @@ Pacientes y familiares no tienen la opción Profesional en su sesión. Para camb
 ## Invitación desde el paciente
 
 En **Mi salud → Tu red de cuidado**, pulsa **Enviar mi código de vinculación a un familiar**. Se muestra `CHASKI-ROSA`, un mensaje que puedes copiar y el botón **Simular envío al familiar**. No se envían mensajes reales. Para cerrar el recorrido, cierra sesión, abre **Registrarme → Familiar**, elige a Rosa e introduce ese código, junto con el consentimiento del familiar.
+
+## Cuatro nuevas funciones para mostrar
+
+1. **Foto opcional:** en Mi salud adjunta una foto de un medidor de ejemplo, ingresa sus valores y marca la confirmación de transcripción. Aclara que no se leen números automáticamente ni se verifica la precisión del aparato.
+2. **Tres métodos para vincular:** código, QR visible en la invitación o teléfono. Para el teléfono usa `900000001` (Rosa), crea un familiar con correo ficticio nuevo y observa que queda pendiente. Ingresa como paciente, acepta la solicitud y vuelve al familiar para iniciar sesión. Todo sucede en el mismo navegador de demo.
+3. **Escalamiento automático:** en el paciente guarda un contacto adicional ficticio con plazo de 30 segundos. Crea una alerta y no la confirmes como familiar. Mantén la página abierta y en línea. Al vencer el plazo aparece la constancia del SMS/WhatsApp simulado; el detalle del caso muestra el destinatario y la hora. Si no quieres esperar, usa el botón de escalamiento del profesional.
+4. **Porcentaje:** abre el panel profesional y muestra el indicador de confirmadas/enviadas. Confirma una alerta como familiar y vuelve a profesional para observar el cambio. Una confirmación no equivale a atención.

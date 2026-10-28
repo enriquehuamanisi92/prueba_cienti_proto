@@ -65,3 +65,13 @@ El profesional registra colegiatura, establecimiento, distrito y dirección fict
 La separación de pantallas y los controles JavaScript son demostrativos. Un sitio estático no puede garantizar permisos ni impedir manipulación desde herramientas del navegador. Para producción se requiere servidor, autenticación, autorización y validación institucional.
 
 Prueba adicional: `python3 tests/access_smoke.py` verifica los registros, rechazos, aprobación, reingreso y menús por rol.
+
+## Foto, QR, solicitudes por teléfono y contacto adicional
+
+- Foto opcional desde cámara/archivo: vista previa local y confirmación explícita de que los valores fueron transcritos correctamente. No hay OCR ni validación médica; la imagen no se persiste. El caso conserva la constancia de revisión. Cambiar un valor obliga a confirmar nuevamente.
+- QR real local: cada imagen `static/qr-p*.svg` codifica el código ficticio del paciente. Se puede leer con el lector del teléfono y pegar el texto en el registro familiar. El botón de lectura simulada representa ese paso durante la exposición; no es un escáner de cámara propio. Los QR no caducan ni verifican identidad en esta demo.
+- Método por teléfono: muestra la coincidencia con el perfil sintético y crea una solicitud pendiente. El paciente puede aceptar o rechazar. El familiar no ingresa hasta la aceptación. Cambia de sesión en el mismo navegador para representar ambos roles.
+- Contacto de emergencia: se configura en el perfil del paciente con nombre, teléfono ficticio, SMS/WhatsApp y plazo de 30 segundos, 1 minuto o 5 minutos. El temporizador local registra un envío simulado a ese contacto si falta confirmación del familiar principal, sin exigir que el contacto tenga app. Excluye registros verdes, pendientes, gestionados o ya escalados. El conteo comienza cuando el aviso y el contacto están disponibles. No corre como servicio en segundo plano; requiere la demo abierta y en línea.
+- Métrica: alertas amarillas/naranjas/rojas con evento de recepción / alertas amarillas/naranjas/rojas con evento de envío × 100. Cuenta alertas únicas, no personas o reintentos, y muestra el numerador y denominador. Sin envíos muestra “Sin envíos”.
+
+Prueba: `python3 tests/extras_smoke.py` inicia un servidor temporal y verifica foto, solicitud/aprobación, QR, escalamiento automático sin duplicación e indicador exacto.
