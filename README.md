@@ -46,7 +46,7 @@ Ver `docs/GUION_EXPOSICION.md`. También existe una vista “El proyecto” dent
 
 Todos los datos son sintéticos. Las vistas de roles son un selector de exposición, no autenticación o autorización. Los registros viven en localStorage del navegador: no se comparten entre personas, pestañas o dispositivos de forma coordinada. El botón de borrado restaura los ejemplos. No ingreses información personal o clínica real.
 
-El estado “enviada” representa un envío simulado. No hay mensajería real, contactos con establecimientos, verificación profesional, n8n, RENIPRESS, OCR, agenda ni atención médica. Se usa una familia precargada por paciente, sin proceso real de invitación. Los tiempos son los realmente transcurridos en la demo; el escalamiento se activa manualmente para representar un plazo vencido.
+El estado “enviada” representa un envío simulado. No hay mensajería real, contactos con establecimientos, verificación profesional, n8n, RENIPRESS, OCR, agenda ni atención médica. Se usa una familia precargada por paciente, con invitación por código ficticio. Los tiempos son los realmente transcurridos en la demo; el escalamiento se activa manualmente para representar un plazo vencido.
 
 El informe concreta el umbral de presión 180/120 y los síntomas de alarma; los otros umbrales son ilustrativos, no están clínicamente validados. No diagnostica, receta ni cambia tratamientos. La pantalla de ayuda ofrece 106 y 113 con la aclaración de cobertura. La PWA requiere HTTPS o localhost y compatibilidad del navegador.
 
@@ -55,3 +55,13 @@ El informe concreta el umbral de presión 180/120 y los síntomas de alarma; los
 `node --check static/app.js` y `npm run build`.
 
 La prueba `tests/browser_smoke.py` usa Playwright y Chromium para registrar, confirmar, gestionar, exportar, recargar, sincronizar sin duplicados, validar entradas, probar el chat y verificar las cuatro vistas en móvil y recarga offline real. Requiere el sitio servido en puerto 3000, el paquete Python `playwright` y Chromium en `/usr/bin/chromium`.
+
+## Acceso y registros simulados
+
+La pantalla inicial separa **Iniciar sesión** y **Registrarme**, con roles Paciente, Familiar y Profesional. Las cuentas de ejemplo se precargan al elegir un rol; el código público de exposición es `246810`. Los registros ficticios se conservan en este navegador, sin almacenar contraseñas ni conectarse a una API. Cada sesión muestra solo su vista de rol y la ficha del proyecto. La historia de paciente sigue siendo sintética y precargada.
+
+El profesional registra colegiatura, establecimiento, distrito y dirección ficticios. El catálogo simulado acepta `123456`, rechaza `654321`, rechaza establecimientos inactivos y exige representar una aprobación de coordinación. No consulta CMP, RENIPRESS o MINSA, no acredita identidad y no pretende ser una plataforma oficial. El control de aprobación está disponible solo como paso del guion antes de ingresar; no es un sistema administrativo real.
+
+La separación de pantallas y los controles JavaScript son demostrativos. Un sitio estático no puede garantizar permisos ni impedir manipulación desde herramientas del navegador. Para producción se requiere servidor, autenticación, autorización y validación institucional.
+
+Prueba adicional: `python3 tests/access_smoke.py` verifica los registros, rechazos, aprobación, reingreso y menús por rol.
