@@ -58,7 +58,7 @@ En **Mi salud → Tu red de cuidado**, pulsa **Enviar mi código de vinculación
 
 ## Cuatro nuevas funciones para mostrar
 
-1. **Foto opcional:** en Mi salud adjunta una foto de un medidor de ejemplo, ingresa sus valores y marca la confirmación de transcripción. Aclara que no se leen números automáticamente ni se verifica la precisión del aparato.
+1. **Registro manual:** escribe los valores del medidor. La opción de foto se retiró porque no extraía valores automáticamente.
 2. **Tres métodos para vincular:** código, QR visible en la invitación o teléfono. Para el teléfono usa `900000001` (Rosa), crea un familiar con correo ficticio nuevo y observa que queda pendiente. Ingresa como paciente, acepta la solicitud y vuelve al familiar para iniciar sesión. Todo sucede en el mismo navegador de demo.
-3. **Escalamiento automático:** en el paciente guarda un contacto adicional ficticio con plazo de 30 segundos. Crea una alerta y no la confirmes como familiar. Mantén la página abierta y en línea. Al vencer el plazo aparece la constancia del SMS/WhatsApp simulado; el detalle del caso muestra el destinatario y la hora. Si no quieres esperar, usa el botón de escalamiento del profesional.
+3. **Escalamiento automático:** en el paciente abre la sección contraíble al final de la columna derecha y guarda un contacto adicional ficticio con plazo de 5, 10 o 15 minutos. Crea una alerta y no la confirmes como familiar. Mantén la página abierta y en línea. Al vencer el plazo aparece la constancia del SMS/WhatsApp simulado; el detalle del caso muestra el destinatario y la hora. Para exponer sin esperar esos minutos, usa el botón de escalamiento simulado del profesional.
 4. **Porcentaje:** abre el panel profesional y muestra el indicador de confirmadas/enviadas. Confirma una alerta como familiar y vuelve a profesional para observar el cambio. Una confirmación no equivale a atención.

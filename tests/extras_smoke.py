@@ -23,20 +23,16 @@ with sync_playwright() as p:
  page.locator('#inviteFamilyBtn').click()
  assert page.locator('#inviteQr').evaluate('(e)=>e.complete && e.naturalWidth>0')
  page.locator('#closeInvite').click()
+ page.locator('#emergencyContactCard summary').click()
  page.locator('#emergencyName').fill('Contacto Extra');page.locator('#emergencyPhone').fill('900000099');page.locator('#emergencyConsent').check();page.locator('#emergencyForm button').click()
- # foto opcional exige confirmación y conserva constancia, no imagen
  page.locator('[data-preset=alarm]').click()
- page.locator('#meterPhoto').set_input_files('static/icon.svg')
  page.locator('#consent').check();page.locator('#submitMeasurement').click()
- assert 'Confirma' in page.locator('#formError').inner_text()
- page.locator('#photoConfirmed').check();page.locator('#submitMeasurement').click()
- assert page.evaluate('cases[0].measurement.photoReviewed')
- assert page.evaluate('cases[0].events.some(e=>e.kind==="foto")')
+ assert page.locator('#meterPhoto').count()==0
  # Comprueba el reloj automático, sin esperar 30 segundos reales.
- page.clock.fast_forward(31000)
+ page.clock.fast_forward(301000)
  assert page.evaluate('cases[0].events.some(e=>e.kind==="escalada" && e.detail.includes("900000099"))')
  count=page.evaluate('cases[0].events.filter(e=>e.kind==="escalada").length')
- page.clock.fast_forward(31000)
+ page.clock.fast_forward(301000)
  assert page.evaluate('cases[0].events.filter(e=>e.kind==="escalada").length')==count==1
  page.locator('#accountButton').click();page.locator('[data-access-role=caregiver]').click();page.locator('#accessEmail').fill('telefono@test.demo');page.locator('#accessSubmit').click()
  assert page.locator('#view-caregiver').is_visible()
@@ -50,4 +46,4 @@ with sync_playwright() as p:
  assert not errors,errors
  b.close()
 server.shutdown()
-print('OK: solicitud por teléfono pendiente y aprobación, QR, confirmación de foto, escalamiento automático sin duplicados y porcentaje exacto 1/4 = 25%; móvil sin errores JS.')
+print('OK: solicitud por teléfono pendiente y aprobación, QR, escalamiento automático sin duplicados y porcentaje exacto 1/4 = 25%; móvil sin errores JS.')

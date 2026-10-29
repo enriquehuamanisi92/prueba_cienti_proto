@@ -32,6 +32,11 @@ with sync_playwright() as p:
     with page.expect_download() as download:
         page.locator('a[download]').click()
     assert download.value.suggested_filename=='chaski-salud-demo.csv'
+    import csv
+    content=Path(download.value.path()).read_text(encoding='utf-8-sig')
+    rows=list(csv.reader(content.splitlines(),delimiter=';'))
+    assert len(rows)>1 and all(len(r)==10 for r in rows)
+    assert rows[0][1]=='Paciente sintético'
     page.locator('#accountButton').click()
     page.locator('[data-access-role=patient]').click()
     page.locator('#accessSubmit').click()

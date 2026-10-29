@@ -68,10 +68,12 @@ Prueba adicional: `python3 tests/access_smoke.py` verifica los registros, rechaz
 
 ## Foto, QR, solicitudes por teléfono y contacto adicional
 
-- Foto opcional desde cámara/archivo: vista previa local y confirmación explícita de que los valores fueron transcritos correctamente. No hay OCR ni validación médica; la imagen no se persiste. El caso conserva la constancia de revisión. Cambiar un valor obliga a confirmar nuevamente.
+- Registro manual de valores. Se retiró la opción de foto porque no hay extracción automática de números.
 - QR real local: cada imagen `static/qr-p*.svg` codifica el código ficticio del paciente. Se puede leer con el lector del teléfono y pegar el texto en el registro familiar. El botón de lectura simulada representa ese paso durante la exposición; no es un escáner de cámara propio. Los QR no caducan ni verifican identidad en esta demo.
 - Método por teléfono: muestra la coincidencia con el perfil sintético y crea una solicitud pendiente. El paciente puede aceptar o rechazar. El familiar no ingresa hasta la aceptación. Cambia de sesión en el mismo navegador para representar ambos roles.
-- Contacto de emergencia: se configura en el perfil del paciente con nombre, teléfono ficticio, SMS/WhatsApp y plazo de 30 segundos, 1 minuto o 5 minutos. El temporizador local registra un envío simulado a ese contacto si falta confirmación del familiar principal, sin exigir que el contacto tenga app. Excluye registros verdes, pendientes, gestionados o ya escalados. El conteo comienza cuando el aviso y el contacto están disponibles. No corre como servicio en segundo plano; requiere la demo abierta y en línea.
+- Contacto de emergencia: se configura en el perfil del paciente con nombre, teléfono ficticio, SMS/WhatsApp y plazo de 5, 10 o 15 minutos. El temporizador local registra un envío simulado a ese contacto si falta confirmación del familiar principal, sin exigir que el contacto tenga app. Excluye registros verdes, pendientes, gestionados o ya escalados. El conteo comienza cuando el aviso y el contacto están disponibles. No corre como servicio en segundo plano; requiere la demo abierta y en línea.
 - Métrica: alertas amarillas/naranjas/rojas con evento de recepción / alertas amarillas/naranjas/rojas con evento de envío × 100. Cuenta alertas únicas, no personas o reintentos, y muestra el numerador y denominador. Sin envíos muestra “Sin envíos”.
 
-Prueba: `python3 tests/extras_smoke.py` inicia un servidor temporal y verifica foto, solicitud/aprobación, QR, escalamiento automático sin duplicación e indicador exacto.
+Prueba: `python3 tests/extras_smoke.py` inicia un servidor temporal y verifica solicitud/aprobación, QR, escalamiento automático sin duplicación e indicador exacto.
+
+El contacto de emergencia está al final de la columna derecha, en una sección contraíble inicialmente cerrada. Los contactos guardados con antiguos plazos cortos pasan a 5 minutos al cargar la demo. El CSV usa separador `;`, comillas en cada campo y UTF-8 con BOM para conservar tildes en Excel. El saludo, nombre e iniciales de la vista paciente siguen la cuenta iniciada; la historia sigue siendo sintética.

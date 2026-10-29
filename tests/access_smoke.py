@@ -33,6 +33,16 @@ with sync_playwright() as p:
  page.locator('#accountButton').click();page.locator('#accessEmail').fill('medico@test.demo');page.locator('#accessSubmit').click()
  assert page.locator('#view-doctor').is_visible()
  assert page.evaluate('document.documentElement.scrollWidth<=innerWidth')
+ page.locator('#accountButton').click();page.locator('#registerTab').click();page.locator('[data-access-role=patient]').click()
+ page.locator('#accessName').fill('Pedro Prueba');page.locator('#accessPhone').fill('900000077');page.locator('#accessEmail').fill('pedro@test.demo');page.locator('#registerConsent').check();page.locator('#accessSubmit').click()
+ assert 'Hola, Pedro' in page.locator('#view-patient h1').inner_text()
+ assert 'Pedro Prueba' in page.locator('.hero-person strong').inner_text()
+ assert page.locator('.hero-person .avatar').inner_text()=='PP'
+ assert page.locator('#emergencyContactCard').evaluate('(e)=>e===e.parentElement.lastElementChild && !e.open')
+ assert page.locator('#emergencyDelay option').all_text_contents()==['5 minutos','10 minutos','15 minutos']
+ assert page.locator('#meterPhoto').count()==0
+ page.locator('#accountButton').click();page.locator('#accessEmail').fill('pedro@test.demo');page.locator('#accessSubmit').click()
+ assert 'Hola, Pedro' in page.locator('#view-patient h1').inner_text()
  assert not errors,errors
  print('OK: accesos separados, registro familiar, invitación inválida, colegiatura no habilitada, posta inactiva, aprobación y reingreso profesional; móvil sin desborde y sin errores JS.')
  b.close()
