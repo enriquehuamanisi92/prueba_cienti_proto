@@ -77,3 +77,7 @@ Prueba adicional: `python3 tests/access_smoke.py` verifica los registros, rechaz
 Prueba: `python3 tests/extras_smoke.py` inicia un servidor temporal y verifica solicitud/aprobación, QR, escalamiento automático sin duplicación e indicador exacto.
 
 El contacto de emergencia está al final de la columna derecha, en una sección contraíble inicialmente cerrada. Los contactos guardados con antiguos plazos cortos pasan a 5 minutos al cargar la demo. El CSV usa separador `;`, comillas en cada campo y UTF-8 con BOM para conservar tildes en Excel. El saludo, nombre e iniciales de la vista paciente siguen la cuenta iniciada; la historia sigue siendo sintética.
+
+## Logo original pendiente
+
+Sube la imagen original como `static/logo.jpg` (también acepta `logo.jpeg`, `logo.png`, `logo.webp` o `logo.svg`). El build detecta el archivo y lo coloca en la cabecera con proporciones adaptadas a móvil, incluyendo caché sin conexión. Hasta que exista ese archivo conserva la marca anterior. No se ha recreado ni sustituido el logo por una imagen generada.
